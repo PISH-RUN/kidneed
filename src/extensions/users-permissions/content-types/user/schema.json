@@ -42,12 +42,6 @@
       "required": true,
       "regex": "^\\+989\\d{9}$"
     },
-    "firstName": {
-      "type": "string"
-    },
-    "lastName": {
-      "type": "string"
-    },
     "children": {
       "type": "relation",
       "relation": "oneToMany",
@@ -59,6 +53,9 @@
       "relation": "oneToMany",
       "target": "api::saturn-message.saturn-message",
       "mappedBy": "user"
+    },
+    "name": {
+      "type": "string"
     }
   }
 }
