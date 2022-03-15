@@ -6,10 +6,4 @@
 
 const { createCoreRouter } = require("@strapi/strapi").factories;
 
-module.exports = createCoreRouter("api::child.child", {
-  config: {
-    find: {
-      policies: ["children-owner"],
-    },
-  },
-});
+module.exports = createCoreRouter("api::child.child");

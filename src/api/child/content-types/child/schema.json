@@ -52,12 +52,6 @@
       "target": "api::saturn-message.saturn-message",
       "mappedBy": "child"
     },
-    "steps": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::step.step",
-      "mappedBy": "child"
-    },
     "relation": {
       "type": "string"
     },

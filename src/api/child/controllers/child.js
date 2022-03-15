@@ -1,6 +1,5 @@
 "use strict";
 
-const { childStepPhychology } = require("../../venus/controllers/venus");
 const merge = require("lodash/merge");
 const pick = require("lodash/pick");
 
@@ -82,5 +81,14 @@ module.exports = createCoreController("api::child.child", ({ strapi }) => ({
     }
 
     return createdChild;
+  },
+
+  async mine(ctx) {
+    const { query } = ctx.request;
+    const { user } = ctx.state;
+
+    ctx.request.query = merge(query, { filters: { user: user.id } });
+
+    return super.find(ctx);
   },
 }));

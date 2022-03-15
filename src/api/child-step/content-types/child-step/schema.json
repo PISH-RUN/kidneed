@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "child_steps",
+  "info": {
+    "singularName": "child-step",
+    "pluralName": "child-steps",
+    "displayName": "childStep",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "child": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::child.child"
+    },
+    "step": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::step.step"
+    }
+  }
+}
