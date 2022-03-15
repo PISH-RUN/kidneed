@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "growth_answers",
+  "info": {
+    "singularName": "growth-answer",
+    "pluralName": "growth-answers",
+    "displayName": "GrowthAnswer",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "child": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::child.child",
+      "inversedBy": "growth_answers"
+    },
+    "question": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::growth-question.growth-question"
+    },
+    "answer": {
+      "type": "integer"
+    },
+    "step": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::step.step"
+    }
+  }
+}

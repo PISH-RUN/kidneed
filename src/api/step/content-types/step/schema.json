@@ -24,12 +24,6 @@
       "min": 1400,
       "max": 1405
     },
-    "actions": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::action.action",
-      "mappedBy": "step"
-    },
     "child": {
       "type": "relation",
       "relation": "manyToOne",
@@ -44,12 +38,6 @@
         "C",
         "D"
       ]
-    },
-    "step_psychologie": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::step-psychologie.step-psychologie",
-      "inversedBy": "steps"
     }
   }
 }

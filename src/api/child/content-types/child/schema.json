@@ -31,22 +31,10 @@
       "relation": "oneToMany",
       "target": "api::character.character"
     },
-    "psychologies": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::child-psychologie.child-psychologie",
-      "mappedBy": "child"
-    },
     "schedules": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::activity.activity",
-      "mappedBy": "child"
-    },
-    "actions": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::action.action",
       "mappedBy": "child"
     },
     "payload": {
@@ -68,6 +56,15 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::step.step",
+      "mappedBy": "child"
+    },
+    "relation": {
+      "type": "string"
+    },
+    "growth_answers": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::growth-answer.growth-answer",
       "mappedBy": "child"
     }
   }

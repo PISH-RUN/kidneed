@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "growth_questions",
+  "info": {
+    "singularName": "growth-question",
+    "pluralName": "growth-questions",
+    "displayName": "growthQuestion",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "question": {
+      "type": "text"
+    },
+    "field": {
+      "type": "enumeration",
+      "enum": [
+        "physical",
+        "cognition",
+        "emotional",
+        "social"
+      ]
+    },
+    "uid": {
+      "type": "uid",
+      "targetField": "question"
+    },
+    "ageCategory": {
+      "type": "integer"
+    }
+  }
+}
