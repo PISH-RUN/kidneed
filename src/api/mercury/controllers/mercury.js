@@ -61,9 +61,9 @@ module.exports = {
     });
 
     return {
-      "book": activities.filter(a => a.type === "book").reduce((partialSum, a) => partialSum + a, 0),
-      "game": activities.filter(a => a.type === "game").reduce((partialSum, a) => partialSum + a, 0),
-      "video": activities.filter(a => a.type === "video").reduce((partialSum, a) => partialSum + a, 0)
+      "book": activities.filter(a => a.type === "book").reduce((partialSum, a) => partialSum + a.duration, 0),
+      "game": activities.filter(a => a.type === "game").reduce((partialSum, a) => partialSum + a.duration, 0),
+      "video": activities.filter(a => a.type === "video").reduce((partialSum, a) => partialSum + a.duration, 0)
     };
   },
 
