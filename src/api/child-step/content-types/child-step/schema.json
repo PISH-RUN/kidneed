@@ -21,6 +21,19 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::step.step"
+    },
+    "field": {
+      "type": "enumeration",
+      "enum": [
+        "physical",
+        "cognition",
+        "emotional",
+        "social"
+      ]
+    },
+    "planGenerated": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

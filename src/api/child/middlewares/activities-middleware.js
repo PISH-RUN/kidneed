@@ -15,26 +15,29 @@ module.exports = (config, { strapi }) => {
     const { params } = ctx.request;
     const { id: childId } = params;
 
-    const step = await strapi.service("api::step.extended").current();
-    const didGenerated = await strapi
+    const childStep = await strapi
       .service("api::child-step.extended")
-      .exists(step.id, childId);
+      .current(childId);
 
-    if (didGenerated) {
+    if (!childStep.field) {
+      return ctx.notAcceptable(
+        "please first select growth field of your child for this step"
+      );
+    }
+
+    if (childStep.planGenerated) {
       return next(ctx);
     }
 
     const now = new Date();
-    const child = await strapi.query("api::child.child").findOne({
-      where: {
-        id: childId,
-      },
-    });
+    const child = await strapi.service("api::child.child").findOne(childId);
 
     await strapi
       .service("api::activity.extended")
       .generate(child, monthRemainingDays(now));
 
-    await strapi.service("api::child-step.extended").generate(step.id, childId);
+    await strapi.service("api::child-step.extended").generated(childStep);
+
+    return next(ctx);
   };
 };

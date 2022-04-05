@@ -1,6 +1,18 @@
 "use strict";
 
 module.exports = {
+  async selectField(ctx) {
+    const { params, body } = ctx.request;
+    const { id: childId } = params;
+    const { field } = body.data;
+
+    const childStep = await strapi
+      .service("api::child-step.extended")
+      .selectField(childId, field);
+
+    return { ok: true, field };
+  },
+
   async submit(ctx) {
     const { params, body } = ctx.request;
     const { id: childId } = params;
