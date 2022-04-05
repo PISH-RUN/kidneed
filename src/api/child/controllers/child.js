@@ -2,6 +2,7 @@
 
 const merge = require("lodash/merge");
 const pick = require("lodash/pick");
+var getYear = require("date-fns-jalali/getYear");
 
 /**
  *  child controller
@@ -64,6 +65,7 @@ module.exports = createCoreController("api::child.child", ({ strapi }) => ({
 
     const childData = merge(pick(data, ["age", "gender", "relation"]), {
       name: data.childName,
+      birthYear: getYear(new Date()) - data.age,
     });
 
     ctx.request.body = {

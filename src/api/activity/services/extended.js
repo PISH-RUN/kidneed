@@ -2,6 +2,10 @@
 
 var axios = require("axios");
 var addDays = require("date-fns/addDays");
+var getYear = require("date-fns/getYear");
+const qs = require("qs");
+
+const DAPI_URL = "https://dapi.pish.run";
 
 const activityData = (content, child, contentId, dayIndex) => {
   const now = new Date();
@@ -20,9 +24,10 @@ const activityData = (content, child, contentId, dayIndex) => {
 
 module.exports = ({ strapi }) => ({
   async fetch(child, days) {
-    const { age, gender } = child;
+    const { birthYear, gender } = child;
+    const age = getYear(new Date()) - birthYear;
     const response = await axios.get(
-      `https://dapi.pish.run/api/plan-generator?daysCount=${days}&age=${age}&gender=${gender}`
+      `${DAPI_URL}/api/plan-generator?daysCount=${days}&age=${age}&gender=${gender}`
     );
 
     return response.data;
@@ -44,5 +49,28 @@ module.exports = ({ strapi }) => ({
         );
       }
     }
+  },
+  async contentsInfo(ids, fields = ["title"]) {
+    const query = qs.stringify(
+      {
+        filters: {
+          id: {
+            $in: ids,
+          },
+        },
+        fields: fields,
+        publicationState: "preview",
+      },
+      {
+        encodeValuesOnly: true,
+      }
+    );
+
+    const response = await axios.get(`${DAPI_URL}/api/contents?${query}`);
+
+    return response.data.data.reduce(
+      (acc, curr) => ({ ...acc, [curr.id]: curr.attributes }),
+      {}
+    );
   },
 });

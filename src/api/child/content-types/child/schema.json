@@ -22,10 +22,6 @@
         "girl"
       ]
     },
-    "age": {
-      "type": "integer",
-      "min": 3
-    },
     "characters": {
       "type": "relation",
       "relation": "oneToMany",
@@ -60,6 +56,10 @@
       "relation": "oneToMany",
       "target": "api::growth-answer.growth-answer",
       "mappedBy": "child"
+    },
+    "birthYear": {
+      "type": "integer",
+      "required": true
     }
   }
 }
