@@ -1,5 +1,4 @@
 "use strict";
-const getProp = require("lodash/get");
 
 module.exports = async (ctx, config, { strapi }) => {
   const { params } = ctx.request;

@@ -16,7 +16,15 @@ module.exports = {
       handler: "activities.find",
       config: {
         middlewares: ["api::child.activities-middleware"],
-        policies: ["activities-policy"],
+        policies: ["global::child-owner"],
+      },
+    },
+    {
+      method: "POST",
+      path: "/children/:id/growth-answers",
+      handler: "growth-answers.submit",
+      config: {
+        policies: ["global::child-owner"],
       },
     },
   ],

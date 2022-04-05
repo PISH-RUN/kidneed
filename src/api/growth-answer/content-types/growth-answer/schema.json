@@ -23,13 +23,16 @@
       "relation": "oneToOne",
       "target": "api::growth-question.growth-question"
     },
-    "answer": {
-      "type": "integer"
-    },
     "step": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::step.step"
+    },
+    "value": {
+      "type": "integer",
+      "max": 3,
+      "min": 0,
+      "required": true
     }
   }
 }
