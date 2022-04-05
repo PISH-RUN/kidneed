@@ -25,7 +25,11 @@ module.exports = (config, { strapi }) => {
     }
 
     const now = new Date();
-    const child = await strapi.query("api::child.child").findOne(childId);
+    const child = await strapi.query("api::child.child").findOne({
+      where: {
+        id: childId,
+      },
+    });
 
     await strapi
       .service("api::activity.extended")
