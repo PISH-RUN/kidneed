@@ -1,8 +1,16 @@
 "use strict";
 
+const { validateFieldSelection } = require("./validations");
+
 module.exports = {
   async selectField(ctx) {
     const { params, body } = ctx.request;
+    const allowedFields = await strapi
+      .service("api::growth-question.extended")
+      .fieldsEnum();
+
+    await validateFieldSelection(allowedFields)(body.data);
+
     const { id: childId } = params;
     const { field } = body.data;
 
