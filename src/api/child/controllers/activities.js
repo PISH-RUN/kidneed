@@ -1,6 +1,12 @@
 "use strict";
 
 const merge = require("lodash/merge");
+const groupBy = require("lodash/groupBy");
+const mapValues = require("lodash/mapValues");
+const addDays = require("date-fns/addDays");
+const startOfDay = require("date-fns/startOfDay");
+const endOfDay = require("date-fns/endOfDay");
+const { monthRemainingDays } = require("../../../utils/date");
 
 module.exports = {
   async find(ctx) {
@@ -29,5 +35,29 @@ module.exports = {
     );
 
     return result;
+  },
+  async monthGlance(ctx) {
+    const { id: childId } = ctx.request.params;
+    const remainingDays = monthRemainingDays(new Date());
+
+    const startDay = startOfDay(new Date());
+    const endDay = endOfDay(addDays(startDay, remainingDays));
+
+    const activities = await strapi.query("api::activity.activity").findMany({
+      where: { child: childId, date: { $gte: startDay, $lt: endDay } },
+      select: ["duration", "date"],
+    });
+
+    console.log(groupBy(activities, "date"));
+
+    const result = mapValues(groupBy(activities, "date"), (activities) => ({
+      duration: activities.reduce(
+        (total, activity) => total + activity.duration,
+        0
+      ),
+      count: activities.length,
+    }));
+
+    return { data: result };
   },
 };
