@@ -7,8 +7,42 @@ const addDays = require("date-fns/addDays");
 const startOfDay = require("date-fns/startOfDay");
 const endOfDay = require("date-fns/endOfDay");
 const { monthRemainingDays } = require("../../../utils/date");
+const { validateCreateActivity } = require("./validations");
+const findKey = require("lodash/findKey");
+
+async function createActivity(data) {
+  return await strapi.service("api::activity.activity").create({ data });
+}
 
 module.exports = {
+  async create(ctx) {
+    const { body, params } = ctx.request;
+    await validateCreateActivity(body.data);
+
+    const { id: childId } = params;
+    const { content1, content2, date } = body.data;
+
+    const contents = await strapi
+      .service("api::activity.extended")
+      .contentsInfo([content1, content2], ["meta"]);
+
+    const activity1 = await createActivity({
+      content: content1.toString(),
+      date,
+      child: childId,
+      duration: findKey(contents[content1].meta, "duration") || 0,
+    });
+
+    const activity2 = await createActivity({
+      content: content2.toString(),
+      date,
+      child: childId,
+      duration: findKey(contents[content2].meta, "duration") || 0,
+    });
+
+    return { data: [activity1, activity2] };
+  },
+
   async find(ctx) {
     const { params, query } = ctx.request;
     const { id: childId } = params;

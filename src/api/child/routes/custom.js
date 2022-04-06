@@ -20,6 +20,14 @@ module.exports = {
       },
     },
     {
+      method: "POST",
+      path: "/children/:id/activities",
+      handler: "activities.create",
+      config: {
+        policies: ["global::child-owner"],
+      },
+    },
+    {
       method: "GET",
       path: "/children/:id/current-month-activity-glance",
       handler: "activities.monthGlance",
