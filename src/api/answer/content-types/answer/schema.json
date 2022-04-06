@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "answers",
+  "info": {
+    "singularName": "answer",
+    "pluralName": "answers",
+    "displayName": "answer",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "question": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::question.question",
+      "inversedBy": "answer"
+    },
+    "value": {
+      "type": "integer",
+      "required": true,
+      "max": 5,
+      "min": 1
+    },
+    "taken_quiz": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::taken-quiz.taken-quiz",
+      "inversedBy": "answers"
+    }
+  }
+}

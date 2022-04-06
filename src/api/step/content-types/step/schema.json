@@ -23,6 +23,12 @@
       "required": true,
       "min": 1400,
       "max": 1405
+    },
+    "taken_quizs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::taken-quiz.taken-quiz",
+      "mappedBy": "step"
     }
   }
 }

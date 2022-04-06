@@ -1,0 +1,47 @@
+{
+  "kind": "collectionType",
+  "collectionName": "taken_quizs",
+  "info": {
+    "singularName": "taken-quiz",
+    "pluralName": "taken-quizs",
+    "displayName": "takenQuiz",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "quiz": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::quiz.quiz"
+    },
+    "child": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::child.child",
+      "inversedBy": "taken_quizs"
+    },
+    "step": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::step.step",
+      "inversedBy": "taken_quizs"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "startOfMonth",
+        "endOfMonth"
+      ],
+      "required": true
+    },
+    "answers": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::answer.answer",
+      "mappedBy": "taken_quiz"
+    }
+  }
+}

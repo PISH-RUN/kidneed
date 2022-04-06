@@ -1,0 +1,53 @@
+{
+  "kind": "collectionType",
+  "collectionName": "quizzes",
+  "info": {
+    "singularName": "quiz",
+    "pluralName": "quizzes",
+    "displayName": "quiz",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "physical",
+        "cognition",
+        "emotional",
+        "social",
+        "system"
+      ]
+    },
+    "growth_questions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::growth-question.growth-question",
+      "mappedBy": "quiz"
+    },
+    "age_group": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::age-group.age-group",
+      "mappedBy": "quiz"
+    },
+    "questions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::question.question",
+      "mappedBy": "quiz"
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "growth_field": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::growth-field.growth-field"
+    }
+  }
+}

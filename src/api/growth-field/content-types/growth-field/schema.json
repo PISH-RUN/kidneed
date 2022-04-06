@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "growth_fields",
+  "info": {
+    "singularName": "growth-field",
+    "pluralName": "growth-fields",
+    "displayName": "growthField",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "symbol": {
+      "type": "enumeration",
+      "enum": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ]
+    },
+    "growth_subfields": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::growth-subfield.growth-subfield",
+      "mappedBy": "growth_field"
+    },
+    "childSteps": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::child-step.child-step",
+      "mappedBy": "growthField"
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "questions",
+  "info": {
+    "singularName": "question",
+    "pluralName": "questions",
+    "displayName": "question",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "quiz": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::quiz.quiz",
+      "inversedBy": "questions"
+    },
+    "growth_subfield": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::growth-subfield.growth-subfield",
+      "inversedBy": "questions"
+    },
+    "body": {
+      "type": "text",
+      "required": true
+    },
+    "answer": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::answer.answer",
+      "mappedBy": "question"
+    }
+  }
+}

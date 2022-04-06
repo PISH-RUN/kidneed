@@ -1,15 +1,17 @@
 module.exports = ({ strapi }) => ({
   async current(childId) {
     const step = await strapi.service("api::step.extended").current();
+    const populate = ["growthField", "child"];
 
-    let childStep = await strapi
-      .query("api::child-step.child-step")
-      .findOne({ where: { step: step.id, child: childId } });
+    let childStep = await strapi.query("api::child-step.child-step").findOne({
+      where: { step: step.id, child: childId },
+      populate,
+    });
 
     if (!childStep) {
       childStep = await strapi
         .service("api::child-step.child-step")
-        .create({ data: { step: step.id, child: childId } });
+        .create({ data: { step: step.id, child: childId } }, { populate });
     }
 
     return childStep;

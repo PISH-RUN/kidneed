@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "growth_subfields",
+  "info": {
+    "singularName": "growth-subfield",
+    "pluralName": "growth-subfields",
+    "displayName": "GrowthSubfield",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "number": {
+      "type": "integer",
+      "required": true,
+      "min": 1,
+      "max": 4
+    },
+    "questions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::question.question",
+      "mappedBy": "growth_subfield"
+    },
+    "growth_field": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::growth-field.growth-field",
+      "inversedBy": "growth_subfields"
+    }
+  }
+}

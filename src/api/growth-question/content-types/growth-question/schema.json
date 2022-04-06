@@ -30,6 +30,12 @@
     },
     "ageCategory": {
       "type": "integer"
+    },
+    "quiz": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::quiz.quiz",
+      "inversedBy": "growth_questions"
     }
   }
 }
