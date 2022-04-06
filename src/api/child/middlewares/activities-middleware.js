@@ -1,14 +1,6 @@
 "use strict";
 
-var getDate = require("date-fns-jalali/getDate");
-var getDaysInMonth = require("date-fns-jalali/getDaysInMonth");
-
-const monthRemainingDays = (date) => {
-  const dayOfMonth = getDate(date);
-  const totalMonthDays = getDaysInMonth(date);
-
-  return totalMonthDays - dayOfMonth + 1;
-};
+const { monthRemainingDays } = require("../../../utils/date");
 
 module.exports = (config, { strapi }) => {
   return async (ctx, next) => {
