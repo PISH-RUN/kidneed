@@ -36,6 +36,7 @@ module.exports = {
 
     return result;
   },
+
   async monthGlance(ctx) {
     const { id: childId } = ctx.request.params;
     const remainingDays = monthRemainingDays(new Date());
@@ -56,6 +57,29 @@ module.exports = {
         0
       ),
       count: activities.length,
+    }));
+
+    return { data: result };
+  },
+
+  async stats(ctx) {
+    const { params, query } = ctx.request;
+    const { id: childId } = params;
+    const { from, to } = query;
+
+    const startDay = startOfDay(Date.parse(from));
+    const endDay = endOfDay(Date.parse(to));
+
+    const activities = await strapi.query("api::activity.activity").findMany({
+      where: { child: childId, date: { $gte: startDay, $lt: endDay } },
+      select: ["progress", "type"],
+    });
+
+    const result = mapValues(groupBy(activities, "type"), (activities) => ({
+      progress: activities.reduce(
+        (total, activity) => total + (activity.progress || 0),
+        0
+      ),
     }));
 
     return { data: result };

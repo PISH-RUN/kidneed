@@ -28,6 +28,14 @@ module.exports = {
       },
     },
     {
+      method: "GET",
+      path: "/children/:id/stats",
+      handler: "activities.stats",
+      config: {
+        policies: ["global::child-owner"],
+      },
+    },
+    {
       method: "POST",
       path: "/children/:id/growth-field",
       handler: "growth-answers.selectField",
