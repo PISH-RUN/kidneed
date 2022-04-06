@@ -37,13 +37,14 @@ module.exports = {
 };
 
 async function createAnswer(answer, stepId, childId) {
-  const growthAnswerService = strapi.query("api::growth-answer.growth-answer");
+  const growthAnswerQuery = strapi.query("api::growth-answer.growth-answer");
+  const growthAnswerService = strapi.service(
+    "api::growth-answer.growth-answer"
+  );
 
-  const foundAnswer = await growthAnswerService.findOne({
+  const foundAnswer = await growthAnswerQuery.findOne({
     where: { step: stepId, child: childId, question: answer.question },
   });
-
-  console.log({ foundAnswer, answer });
 
   if (!foundAnswer) {
     await growthAnswerService.create({
