@@ -57,7 +57,7 @@ function seedDirHandler(seedsDirPath) {
 
 async function seeding({ strapi }) {
   const seedsDirPath = getSeedsPath(strapi);
-  const seedsDir = await fsHelper.dirs(seedsDirPath);
+  const seedsDir = (await fsHelper.dirs(seedsDirPath)).sort();
 
   const handler = seedDirHandler(seedsDirPath);
 
