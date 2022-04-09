@@ -22,12 +22,6 @@
         "system"
       ]
     },
-    "growth_questions": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::growth-question.growth-question",
-      "mappedBy": "quiz"
-    },
     "ageGroup": {
       "type": "relation",
       "relation": "oneToOne",

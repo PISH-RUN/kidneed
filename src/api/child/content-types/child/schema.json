@@ -22,11 +22,6 @@
         "girl"
       ]
     },
-    "characters": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::character.character"
-    },
     "schedules": {
       "type": "relation",
       "relation": "oneToMany",
@@ -42,20 +37,8 @@
       "target": "plugin::users-permissions.user",
       "inversedBy": "children"
     },
-    "messages": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::saturn-message.saturn-message",
-      "mappedBy": "child"
-    },
     "relation": {
       "type": "string"
-    },
-    "growth_answers": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::growth-answer.growth-answer",
-      "mappedBy": "child"
     },
     "birthYear": {
       "type": "integer",
