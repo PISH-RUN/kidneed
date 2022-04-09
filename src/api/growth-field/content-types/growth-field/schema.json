@@ -24,16 +24,16 @@
         "D"
       ]
     },
-    "growth_subfields": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::growth-subfield.growth-subfield",
-      "mappedBy": "growth_field"
-    },
     "childSteps": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::child-step.child-step",
+      "mappedBy": "growthField"
+    },
+    "growthSubfields": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::growth-subfield.growth-subfield",
       "mappedBy": "growthField"
     }
   }

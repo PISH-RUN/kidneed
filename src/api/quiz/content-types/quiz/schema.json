@@ -28,11 +28,11 @@
       "target": "api::growth-question.growth-question",
       "mappedBy": "quiz"
     },
-    "age_group": {
+    "ageGroup": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::age-group.age-group",
-      "mappedBy": "quiz"
+      "inversedBy": "quiz"
     },
     "questions": {
       "type": "relation",
@@ -44,7 +44,7 @@
       "type": "string",
       "required": true
     },
-    "growth_field": {
+    "growthField": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::growth-field.growth-field"

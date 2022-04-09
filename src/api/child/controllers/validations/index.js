@@ -23,8 +23,15 @@ const createActivityValidation = yup.object().shape({
   content2: yup.number().integer().positive().required(),
 });
 
+const submitQuizValidation = (allowed) =>
+  yup.object().shape({
+    type: yup.mixed().oneOf(allowed).required(),
+  });
+
 module.exports = {
   validateFieldSelection: (allowed) =>
     validateYupSchema(selectFieldValidation(allowed)),
+  validateQuizSubmission: (allowed) =>
+    validateYupSchema(submitQuizValidation(allowed)),
   validateCreateActivity: validateYupSchema(createActivityValidation),
 };

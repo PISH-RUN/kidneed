@@ -14,5 +14,7 @@ module.exports = async (ctx, config, { strapi }) => {
     },
   });
 
+  ctx.state.child = child;
+
   return child.user.id === userId;
 };

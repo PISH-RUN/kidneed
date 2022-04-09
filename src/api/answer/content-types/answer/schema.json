@@ -24,7 +24,7 @@
       "max": 5,
       "min": 1
     },
-    "taken_quiz": {
+    "takenQuiz": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::taken-quiz.taken-quiz",

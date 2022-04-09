@@ -12,20 +12,27 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "slug": {
-      "type": "integer",
-      "required": true,
-      "unique": true,
-      "min": 1
-    },
     "description": {
       "type": "text"
+    },
+    "min": {
+      "type": "integer",
+      "required": true
+    },
+    "max": {
+      "type": "integer",
+      "required": true
+    },
+    "slug": {
+      "type": "string",
+      "required": true,
+      "unique": true
     },
     "quiz": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::quiz.quiz",
-      "inversedBy": "age_group"
+      "inversedBy": "ageGroup"
     }
   }
 }

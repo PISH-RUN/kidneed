@@ -41,7 +41,7 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::answer.answer",
-      "mappedBy": "taken_quiz"
+      "mappedBy": "takenQuiz"
     }
   }
 }

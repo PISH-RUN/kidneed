@@ -1,105 +1,119 @@
 "use strict";
 
-const arrayDiff = require("lodash/difference");
-
-function validateQuizAnswers(quiz, answers) {
-  const questionIds = quiz.questions.map((q) => q.id);
-  const answeredQuestionIds = answers.map((a) => a.question);
-
-  const difference = arrayDiff(questionIds, answeredQuestionIds);
-
-  if (
-    questionIds.length !== answeredQuestionIds.length ||
-    difference.length !== 0
-  ) {
-    return [false, difference];
-  }
-
-  return [true];
-}
+const minBy = require("lodash/minBy");
+const objValues = require("lodash/values");
+const mapObjValues = require("lodash/mapValues");
+const { validateQuizSubmission } = require("./validations");
 
 module.exports = {
-  async submit(ctx) {
-    const { params, body } = ctx.request;
+  async find(ctx) {
+    const { child } = ctx.state;
+    const { populate } = ctx.request.query;
 
-    const { id: childId } = params;
-    const { quiz: quizId, answers, type } = body.data;
+    try {
+      var quiz = await strapi
+        .service("api::quiz.extended")
+        .childQuiz(child, { questions: { select: ["id", "body"] } });
+    } catch (e) {
+      return ctx.badRequest(e.message);
+    }
+
+    return { data: quiz.questions };
+  },
+
+  async submit(ctx) {
+    const { child } = ctx.state;
+    const { body } = ctx.request;
+    const { type, answers } = body.data;
+
+    const allowedTypes = await strapi
+      .service("api::taken-quiz.extended")
+      .typesEnum();
+
+    await validateQuizSubmission(allowedTypes);
+
+    try {
+      var quiz = await strapi.service("api::quiz.extended").childQuiz(child);
+    } catch (e) {
+      return ctx.badRequest(e.message);
+    }
+
+    if (!quiz) {
+      return ctx.notFound(`Quiz not found.`);
+    }
 
     const takenQuiz = await strapi
       .service("api::taken-quiz.extended")
-      .current(childId, quizId, type);
+      .current(child.id, quiz.id, type);
 
-    if (!quiz) {
-      return;
+    if (takenQuiz?.answers?.length > 0) {
+      return ctx.locked(`You already passed this test`);
     }
 
-    if (takenQuiz?.questions?.length > 0) {
-      return;
+    try {
+      strapi.service("api::quiz.extended").validateQuizAnswers(quiz, answers);
+    } catch (e) {
+      return ctx.badRequest(e.message);
     }
 
-    const questionIds = quiz.questions.map((q) => q.id);
-    const answeredQuestionIds = answers.map((a) => a.question);
-
-    const difference = arrayDiff(questionIds, answeredQuestionIds);
-    if (
-      questionIds.length !== answeredQuestionIds.length ||
-      difference.length !== 0
-    ) {
-      return ctx.badRequest(
-        `You need to answer all quiz questions, unanswereds are: ${difference.join(
-          ","
-        )}`
-      );
-    }
-
-    answers.forEach(({ question, value }) => {
-      strapi
+    await answers.forEach(async ({ question, value }) => {
+      await strapi
         .service("api::answer.answer")
-        .create({ data: { question, value, taken_quiz: takenQuiz.id } });
+        .create({ data: { question, value, takenQuiz: takenQuiz.id } });
     });
-  },
-  async growthField(ctx) {
-    const { params, body } = ctx.request;
 
-    const { id: childId } = params;
-    const { quiz: quizId, answers } = body.data;
+    return {
+      ok: true,
+    };
+  },
+
+  async growthField(ctx) {
+    const { child } = ctx.state;
+    const { body } = ctx.request;
+    const { answers } = body.data;
 
     const childStep = await strapi
       .service("api::child-step.extended")
-      .current(childId);
+      .current(child.id, ["growthField"]);
 
     if (childStep.growthField) {
-      return {
-        data: {
-          growthField: childStep.growthField,
+      return ctx.send(
+        {
+          data: {
+            growthField: childStep.growthField,
+          },
         },
-      };
+        208
+      );
     }
 
-    const quiz = await strapi
-      .service("api::quiz.quiz")
-      .find(quizId, { populate: ["questions"] });
+    const quiz = await strapi.service("api::quiz.extended").systemQuiz(child);
 
-    if (!quiz || quiz.type !== "system") {
-      return ctx.badRequest(`No Quiz found.`);
+    try {
+      var { result } = await strapi
+        .service("api::quiz.extended")
+        .score({ quizId: quiz.id, answers });
+    } catch (e) {
+      return ctx.badRequest(e.message);
     }
 
-    const [isValid, diff] = validateQuizAnswers(quiz, answers);
+    const minField = minBy(
+      objValues(mapObjValues(result, (value, field) => ({ value, field }))),
+      "value"
+    );
 
-    if (!isValid) {
-      let message = `Answers schema doesn't match with quiz schema, please provide right answers [you need to provide right questions ids]`;
-      if (diff.length > 0) {
-        message = `You need to answer all quiz questions, unanswereds are: ${diff.join(
-          ","
-        )}`;
-      }
-      return ctx.badRequest(message);
-    }
+    const growthField = await strapi
+      .service("api::growth-field.growth-field")
+      .findOne(minField.field);
 
-    answers.forEach(async ({ question, value }) => {
-      await strapi
-        .service("api::answer.answer")
-        .create({ data: { question, value, taken_quiz: takenQuiz.id } });
-    });
+    await strapi
+      .service("api::child-step.extended")
+      .selectField(child.id, growthField.id);
+
+    return {
+      data: {
+        growthField,
+      },
+    };
   },
 };

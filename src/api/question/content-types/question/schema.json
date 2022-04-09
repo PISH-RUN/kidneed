@@ -18,7 +18,7 @@
       "target": "api::quiz.quiz",
       "inversedBy": "questions"
     },
-    "growth_subfield": {
+    "growthSubfield": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::growth-subfield.growth-subfield",
