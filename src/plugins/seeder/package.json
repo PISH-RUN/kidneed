@@ -1,0 +1,26 @@
+{
+  "name": "seeder",
+  "version": "0.0.0",
+  "description": "This is the description of the plugin.",
+  "strapi": {
+    "name": "seeder",
+    "description": "Description of seeder plugin",
+    "kind": "plugin"
+  },
+  "dependencies": {
+    "csv-parse": "^5.0.4"
+  },
+  "author": {
+    "name": "A Strapi developer"
+  },
+  "maintainers": [
+    {
+      "name": "A Strapi developer"
+    }
+  ],
+  "engines": {
+    "node": ">=12.x. <=16.x.x",
+    "npm": ">=6.0.0"
+  },
+  "license": "MIT"
+}
