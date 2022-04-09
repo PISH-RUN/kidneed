@@ -67,6 +67,22 @@ module.exports = {
     };
   },
 
+  async growthFieldQuestions(ctx) {
+    const { child } = ctx.state;
+
+    const quiz = await strapi
+      .service("api::quiz.extended")
+      .systemQuiz(child, { questions: { select: ["id", "body"] } });
+
+    if (!quiz) {
+      return ctx.notFound(`Quiz not found.`);
+    }
+
+    return {
+      data: quiz.questions,
+    };
+  },
+
   async growthField(ctx) {
     const { child } = ctx.state;
     const { body } = ctx.request;

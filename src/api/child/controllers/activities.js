@@ -83,8 +83,6 @@ module.exports = {
       select: ["duration", "date"],
     });
 
-    console.log(groupBy(activities, "date"));
-
     const result = mapValues(groupBy(activities, "date"), (activities) => ({
       duration: activities.reduce(
         (total, activity) => total + activity.duration,

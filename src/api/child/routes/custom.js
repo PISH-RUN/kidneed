@@ -44,6 +44,14 @@ module.exports = {
       },
     },
     {
+      method: "GET",
+      path: "/children/:id/growth-field-questions",
+      handler: "quiz.growthFieldQuestions",
+      config: {
+        policies: ["global::child-owner"],
+      },
+    },
+    {
       method: "POST",
       path: "/children/:id/find-growth-field",
       handler: "quiz.growthField",

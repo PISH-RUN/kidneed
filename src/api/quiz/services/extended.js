@@ -62,12 +62,12 @@ module.exports = ({ strapi }) => ({
     }
   },
 
-  async systemQuiz(child) {
+  async systemQuiz(child, populate) {
     const ageGroup = await strapi.service("api::age-group.extended").get(child);
 
     return await strapi
       .query("api::quiz.quiz")
-      .findOne({ where: { ageGroup: ageGroup.id, type: "system" } });
+      .findOne({ where: { ageGroup: ageGroup.id, type: "system" }, populate });
   },
 
   async childQuiz(child, populate = ["questions"]) {
@@ -77,7 +77,6 @@ module.exports = ({ strapi }) => ({
       .service("api::child-step.extended")
       .growthField(child.id);
 
-    console.log({ ageGroup, growthField });
     if (!growthField) {
       throw new Error(`You need to select growth field of your child first`);
     }
