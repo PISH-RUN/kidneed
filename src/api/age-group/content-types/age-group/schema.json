@@ -32,7 +32,7 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::quiz.quiz",
-      "inversedBy": "ageGroup"
+      "mappedBy": "ageGroup"
     }
   }
 }

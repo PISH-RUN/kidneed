@@ -86,4 +86,10 @@ module.exports = ({ strapi }) => ({
       populate,
     });
   },
+
+  async typeEnums() {
+    const quiz = await strapi.getModel("api::quiz.quiz");
+
+    return quiz.attributes.type.enum;
+  },
 });

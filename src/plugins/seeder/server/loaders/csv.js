@@ -14,16 +14,18 @@ async function parser(path, config) {
 }
 
 const loader = (config) => async (seeder, path) => {
+  let records = [];
   const pr = await parser(path, config);
 
   pr.on("readable", async function () {
     let record;
     while ((record = pr.read()) !== null) {
-      await seeder.fromCSV(record);
+      records.push(record);
     }
   });
 
   await finished(pr);
+  await seeder.fromCSV(records);
 };
 
 module.exports = ({ strapi }) => {

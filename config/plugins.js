@@ -5,7 +5,7 @@ module.exports = {
     config: {
       seeders: {
         growth: require("../src/seeders/growth"),
-        quiz: () => ({}),
+        quiz: require("../src/seeders/quiz"),
       },
     },
   },

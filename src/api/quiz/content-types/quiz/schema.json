@@ -15,10 +15,6 @@
     "type": {
       "type": "enumeration",
       "enum": [
-        "physical",
-        "cognition",
-        "emotional",
-        "social",
         "system"
       ]
     },
