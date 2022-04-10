@@ -9,9 +9,9 @@ module.exports = (config, { strapi }) => {
 
     const childStep = await strapi
       .service("api::child-step.extended")
-      .current(childId);
+      .current(childId, ["growthField"]);
 
-    if (!childStep.field) {
+    if (!childStep.growthField) {
       return ctx.notAcceptable(
         "please first select growth field of your child for this step"
       );
