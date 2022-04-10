@@ -14,7 +14,8 @@
   "attributes": {
     "duration": {
       "type": "integer",
-      "required": true
+      "required": true,
+      "min": 0
     },
     "date": {
       "type": "date"
