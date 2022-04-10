@@ -19,7 +19,7 @@ module.exports = ({ strapi }) => ({
       const { question, subfield, age, name, type } = record;
       const growthSubfield = await strapi
         .query("api::growth-subfield.growth-subfield")
-        .findOne({ where: { name: subfield } });
+        .findOne({ where: { name: subfield }, populate: ["growthField"] });
 
       if (!quiz) {
         const ageGroup = await strapi
@@ -31,20 +31,18 @@ module.exports = ({ strapi }) => ({
             name,
             type,
             ageGroup: ageGroup.id,
-            growthSubfield: type ? null : growthSubfield.id,
+            growthField: type ? null : growthSubfield.growthField.id,
           },
         });
       }
 
-      await strapi
-        .service("api::question.question")
-        .create({
-          data: {
-            body: question,
-            quiz: quiz.id,
-            growthSubfield: growthSubfield.id,
-          },
-        });
+      await strapi.service("api::question.question").create({
+        data: {
+          body: question,
+          quiz: quiz.id,
+          growthSubfield: growthSubfield.id,
+        },
+      });
     }
   },
 });

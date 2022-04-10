@@ -3,5 +3,5 @@
 const seeding = require("./seeding");
 
 module.exports = async ({ strapi }) => {
-  await seeding({ strapi });
+  // await seeding({ strapi });
 };
