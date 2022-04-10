@@ -50,6 +50,12 @@
     },
     "name": {
       "type": "string"
+    },
+    "rahches": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::rahche.rahche",
+      "mappedBy": "user"
     }
   }
 }

@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "rahche_roots",
+  "info": {
+    "singularName": "rahche-root",
+    "pluralName": "rahche-roots",
+    "displayName": "rahcheRoot",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "body": {
+      "type": "text"
+    },
+    "slug": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "questions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::rahche-question.rahche-question",
+      "mappedBy": "root"
+    }
+  }
+}

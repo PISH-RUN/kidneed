@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "rahche_signs",
+  "info": {
+    "singularName": "rahche-sign",
+    "pluralName": "rahche-signs",
+    "displayName": "rahcheSign",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "body": {
+      "type": "text",
+      "required": true
+    },
+    "slug": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    }
+  }
+}

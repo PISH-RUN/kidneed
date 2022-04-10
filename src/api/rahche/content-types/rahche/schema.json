@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "rahches",
+  "info": {
+    "singularName": "rahche",
+    "pluralName": "rahches",
+    "displayName": "rahche",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "rahches"
+    },
+    "subject": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::rahche-subject.rahche-subject"
+    },
+    "signs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::rahche-sign.rahche-sign"
+    },
+    "roots": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::rahche-root.rahche-root"
+    }
+  }
+}

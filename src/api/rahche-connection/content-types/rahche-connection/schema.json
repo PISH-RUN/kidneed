@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "rahche_connections",
+  "info": {
+    "singularName": "rahche-connection",
+    "pluralName": "rahche-connections",
+    "displayName": "rahcheConnection",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "subject": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::rahche-subject.rahche-subject"
+    },
+    "sign": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::rahche-sign.rahche-sign"
+    },
+    "root": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::rahche-root.rahche-root"
+    },
+    "approach": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::rahche-approach.rahche-approach"
+    }
+  }
+}

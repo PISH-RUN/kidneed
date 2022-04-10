@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "rahche_questions",
+  "info": {
+    "singularName": "rahche-question",
+    "pluralName": "rahche-questions",
+    "displayName": "rahcheQuestion",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "body": {
+      "type": "text",
+      "required": true
+    },
+    "root": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::rahche-root.rahche-root",
+      "inversedBy": "questions"
+    }
+  }
+}

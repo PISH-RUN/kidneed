@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "rahche_approaches",
+  "info": {
+    "singularName": "rahche-approach",
+    "pluralName": "rahche-approaches",
+    "displayName": "rahcheApproach"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "slug": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "title": {
+      "type": "string"
+    },
+    "body": {
+      "type": "text"
+    },
+    "voice": {
+      "allowedTypes": [
+        "files"
+      ],
+      "type": "media",
+      "multiple": false
+    }
+  }
+}
