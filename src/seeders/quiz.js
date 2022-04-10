@@ -29,7 +29,7 @@ module.exports = ({ strapi }) => ({
         quiz = await strapi.service("api::quiz.quiz").create({
           data: {
             name,
-            type,
+            type: type || null,
             ageGroup: ageGroup.id,
             growthField: type ? null : growthSubfield.growthField.id,
           },

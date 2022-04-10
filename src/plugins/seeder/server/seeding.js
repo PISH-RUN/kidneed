@@ -4,18 +4,12 @@ const path = require("path");
 const fsHelper = require("./utils/fs-helper");
 const { getSeedsPath, getSeeder, getLoader } = require("./utils/getters");
 
-async function createSeedRecord(file) {
+async function seedExists(file) {
   const count = await strapi
     .query("plugin::seeder.seed")
     .count({ where: { file } });
 
-  if (count > 0) {
-    return true;
-  }
-
-  await strapi.service("plugin::seeder.seed").create({ data: { file } });
-
-  return false;
+  return count > 0;
 }
 
 function seedDirHandler(seedsDirPath) {
@@ -37,7 +31,7 @@ function seedDirHandler(seedsDirPath) {
 
     async function handleSeedFile(seedFile) {
       const filePath = path.join(seedFilesPath, seedFile.name);
-      const alreadyExist = await createSeedRecord(filePath);
+      const alreadyExist = await seedExists(filePath);
 
       if (alreadyExist) {
         return;
@@ -51,6 +45,9 @@ function seedDirHandler(seedsDirPath) {
       }
 
       await loader(seeder, filePath);
+      await strapi
+        .service("plugin::seeder.seed")
+        .create({ data: { file: filePath } });
     }
   };
 }

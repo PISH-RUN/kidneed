@@ -20,9 +20,9 @@
     },
     "ageGroup": {
       "type": "relation",
-      "relation": "oneToOne",
+      "relation": "manyToOne",
       "target": "api::age-group.age-group",
-      "inversedBy": "quiz"
+      "inversedBy": "quizzes"
     },
     "questions": {
       "type": "relation",

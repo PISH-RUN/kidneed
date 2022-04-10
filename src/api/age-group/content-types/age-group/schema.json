@@ -28,9 +28,9 @@
       "required": true,
       "unique": true
     },
-    "quiz": {
+    "quizzes": {
       "type": "relation",
-      "relation": "oneToOne",
+      "relation": "oneToMany",
       "target": "api::quiz.quiz",
       "mappedBy": "ageGroup"
     }
