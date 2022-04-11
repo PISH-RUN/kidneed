@@ -4,10 +4,11 @@
   "info": {
     "singularName": "notification",
     "pluralName": "notifications",
-    "displayName": "notification"
+    "displayName": "notification",
+    "description": ""
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
@@ -34,6 +35,12 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
+      "inversedBy": "notifications"
+    },
+    "child": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::child.child",
       "inversedBy": "notifications"
     }
   }

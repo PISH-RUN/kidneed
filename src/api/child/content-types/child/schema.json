@@ -55,6 +55,12 @@
       "relation": "oneToMany",
       "target": "api::rahche.rahche",
       "mappedBy": "child"
+    },
+    "notifications": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::notification.notification",
+      "mappedBy": "child"
     }
   }
 }

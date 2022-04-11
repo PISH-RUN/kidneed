@@ -8,8 +8,10 @@ const rConnQuery = () =>
 const rQuestionQuery = () =>
   strapi.query("api::rahche-question.rahche-question");
 const rRootQuery = () => strapi.query("api::rahche-root.rahche-root");
+const notificationBuilder = () => strapi.service("api::notification.builder");
 
 const intersection = require("lodash/intersection");
+const { user } = require("pg/lib/defaults");
 
 module.exports = {
   async find(ctx) {
@@ -62,6 +64,10 @@ module.exports = {
     );
 
     await rService().update(rahche.id, { data: { roots: selectedRoots } });
+
+    if (rahche.roots.length === 0) {
+      await notificationBuilder().rahche({ rahche });
+    }
 
     return { ok: true };
   },

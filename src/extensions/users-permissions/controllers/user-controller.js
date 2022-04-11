@@ -1,11 +1,16 @@
 module.exports = {
-  async unreadNotifcations(ctx) {
-    const { user } = ctx.state;
+  overwrite: (parent) => ({
+    ...parent,
+    async me(ctx) {
+      await parent.me(ctx);
 
-    const unreadNotifications = await strapi
-      .query("api::notification.notification")
-      .count({ where: { user: user.id, readAt: null } });
+      const { user } = ctx.state;
 
-    return { unreadNotifications };
-  },
+      const unreadNotifications = await strapi
+        .service("api::notification.extended")
+        .unread(user.id);
+
+      ctx.body = { ...ctx.body, unreadNotifications };
+    },
+  }),
 };
