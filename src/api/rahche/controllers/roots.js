@@ -15,6 +15,12 @@ module.exports = {
   async find(ctx) {
     const { rahche } = ctx.state;
 
+    if (rahche.signs?.length < 1) {
+      return ctx.badRequest(
+        `You need to select signs before getting roots questions`
+      );
+    }
+
     const connections = await rConnQuery().findMany({
       where: {
         subject: rahche.subject.id,
