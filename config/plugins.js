@@ -1,4 +1,4 @@
-module.exports = {
+module.exports = ({ env }) => ({
   seeder: {
     enabled: true,
     resolve: "./src/plugins/seeder",
@@ -10,4 +10,16 @@ module.exports = {
       },
     },
   },
-};
+  sms: {
+    enabled: true,
+    resolve: "./src/plugins/sms",
+    config: {
+      provider: "ghasedak",
+      providersOptions: {
+        ghasedak: {
+          apiKey: env("GHASEDAK_API_KEY"),
+        },
+      },
+    },
+  },
+});
