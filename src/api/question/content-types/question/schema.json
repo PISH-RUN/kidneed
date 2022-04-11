@@ -27,12 +27,6 @@
     "body": {
       "type": "text",
       "required": true
-    },
-    "answer": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::answer.answer",
-      "mappedBy": "question"
     }
   }
 }

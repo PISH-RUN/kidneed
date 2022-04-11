@@ -41,6 +41,31 @@ module.exports = ({ strapi }) => ({
     return { quiz, result };
   },
 
+  async takenQuizScore(quizId) {
+    const takenQuiz = await strapi.query("api::taken-quiz.taken-quiz").findOne({
+      where: { id: quizId },
+      populate: [
+        "answers",
+        "answers.question",
+        "answers.question.growthSubfield",
+        "answers.question.growthSubfield.growthField",
+      ],
+    });
+
+    const mappedValueToField = takenQuiz.answers.map((answer) => ({
+      value: answer.value,
+      subfield: answer.question.growthSubfield.id,
+    }));
+
+    const groupedField = groupBy(mappedValueToField, "subfield");
+
+    const result = mapValues(groupedField, (group) =>
+      group.reduce((total, current) => total + current.value, 0)
+    );
+
+    return result;
+  },
+
   validateQuizAnswers(quiz, answers) {
     const questionIds = quiz.questions.map((q) => q.id);
     const answeredQuestionIds = answers.map((a) => a.question);

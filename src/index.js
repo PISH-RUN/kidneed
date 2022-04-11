@@ -1,4 +1,11 @@
-'use strict';
+"use strict";
+
+async function cleanup(strapi) {
+  await strapi.query("api::question.question").deleteMany();
+  await strapi.query("api::quiz.quiz").deleteMany();
+  await strapi.query("api::answer.answer").deleteMany();
+  await strapi.query("api::taken-quiz.taken-quiz").deleteMany();
+}
 
 module.exports = {
   /**
@@ -7,7 +14,7 @@ module.exports = {
    *
    * This gives you an opportunity to extend code.
    */
-  register(/*{ strapi }*/) {},
+  async register({ strapi }) {},
 
   /**
    * An asynchronous bootstrap function that runs before
@@ -16,5 +23,7 @@ module.exports = {
    * This gives you an opportunity to set up your data model,
    * run jobs, or perform some special logic.
    */
-  bootstrap(/*{ strapi }*/) {},
+  async bootstrap({ strapi }) {
+    // await cleanup(strapi);
+  },
 };

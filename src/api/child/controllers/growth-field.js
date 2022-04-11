@@ -1,5 +1,6 @@
 "use strict";
 
+const omit = require("lodash/omit");
 const { validateFieldSelection } = require("./validations");
 
 module.exports = {
@@ -23,5 +24,42 @@ module.exports = {
     }
 
     return { ok: true };
+  },
+
+  async result(ctx) {
+    const { child } = ctx.state;
+    const step = await strapi.service("api::step.extended").current();
+
+    const takenQuizzes = await strapi
+      .query("api::taken-quiz.taken-quiz")
+      .findMany({
+        where: { step: step.id, child: child.id },
+        select: ["id", "type"],
+        populate: {
+          quiz: {
+            select: [],
+            populate: { growthField: { id: true, select: "id" } },
+          },
+        },
+      });
+
+    const result = await Promise.allSettled(
+      takenQuizzes.map(async (takenQuiz) => ({
+        type: takenQuiz.type,
+        growthField: takenQuiz.quiz.growthField.id,
+        result: await strapi
+          .service("api::quiz.extended")
+          .takenQuizScore(takenQuiz.id),
+      }))
+    );
+
+    const response = result.reduce(
+      (acc, r) => ({ ...acc, [r.value.type]: omit(r.value, "type") }),
+      {}
+    );
+
+    return {
+      data: response,
+    };
   },
 };

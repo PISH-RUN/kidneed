@@ -43,10 +43,27 @@ module.exports = {
         policies: ["global::child-owner"],
       },
     },
+
     {
       method: "GET",
       path: "/children/:id/growth-field-questions",
       handler: "quiz.growthFieldQuestions",
+      config: {
+        policies: ["global::child-owner"],
+      },
+    },
+    {
+      method: "GET",
+      path: "/children/:id/quiz",
+      handler: "quiz.find",
+      config: {
+        policies: ["global::child-owner"],
+      },
+    },
+    {
+      method: "POST",
+      path: "/children/:id/quiz",
+      handler: "quiz.submit",
       config: {
         policies: ["global::child-owner"],
       },
@@ -69,16 +86,8 @@ module.exports = {
     },
     {
       method: "GET",
-      path: "/children/:id/quiz",
-      handler: "quiz.find",
-      config: {
-        policies: ["global::child-owner"],
-      },
-    },
-    {
-      method: "POST",
-      path: "/children/:id/quiz",
-      handler: "quiz.submit",
+      path: "/children/:id/growth-field-result",
+      handler: "growth-field.result",
       config: {
         policies: ["global::child-owner"],
       },
