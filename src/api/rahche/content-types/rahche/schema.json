@@ -32,6 +32,12 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::rahche-root.rahche-root"
+    },
+    "child": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::child.child",
+      "inversedBy": "rahches"
     }
   }
 }

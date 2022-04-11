@@ -49,6 +49,12 @@
       "relation": "oneToMany",
       "target": "api::taken-quiz.taken-quiz",
       "mappedBy": "child"
+    },
+    "rahches": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::rahche.rahche",
+      "mappedBy": "child"
     }
   }
 }

@@ -56,6 +56,12 @@
       "relation": "oneToMany",
       "target": "api::rahche.rahche",
       "mappedBy": "user"
+    },
+    "notifications": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::notification.notification",
+      "mappedBy": "user"
     }
   }
 }

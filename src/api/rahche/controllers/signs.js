@@ -1,7 +1,5 @@
 "use strict";
 
-const flatten = require("lodash/flatten");
-
 const rService = () => strapi.service("api::rahche.rahche");
 const rConnQuery = () =>
   strapi.query("api::rahche-connection.rahche-connection");
@@ -37,13 +35,8 @@ module.exports = {
 
     await rService().update(rahche.id, { data: { signs: selected } });
 
-    const connections = await rConnQuery().findMany({
-      where: { subject: rahche.subject.id, sign: { id: { $in: selected } } },
-      populate: ["root", "root.questions"],
-    });
-
-    const questions = flatten(connections.map((c) => c.root.questions));
-
-    return { data: questions };
+    return {
+      ok: true,
+    };
   },
 };

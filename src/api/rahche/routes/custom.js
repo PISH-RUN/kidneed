@@ -22,9 +22,25 @@ module.exports = {
       },
     },
     {
+      method: "GET",
+      path: "/rahche/:rahche/roots",
+      handler: "roots.find",
+      config: {
+        policies: ["rahche-owner"],
+      },
+    },
+    {
       method: "POST",
       path: "/rahche/:rahche/roots",
       handler: "roots.select",
+      config: {
+        policies: ["rahche-owner"],
+      },
+    },
+    {
+      method: "GET",
+      path: "/rahche/:rahche/approaches",
+      handler: "approaches.find",
       config: {
         policies: ["rahche-owner"],
       },

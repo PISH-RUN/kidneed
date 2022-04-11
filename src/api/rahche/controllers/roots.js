@@ -12,6 +12,21 @@ const rRootQuery = () => strapi.query("api::rahche-root.rahche-root");
 const intersection = require("lodash/intersection");
 
 module.exports = {
+  async find(ctx) {
+    const { rahche } = ctx.state;
+
+    const connections = await rConnQuery().findMany({
+      where: {
+        subject: rahche.subject.id,
+        sign: { id: { $in: rahche.signs.map((s) => s.id) } },
+      },
+      populate: ["root", "root.questions"],
+    });
+
+    const questions = flatten(connections.map((c) => c.root.questions));
+
+    return { data: questions };
+  },
   async select(ctx) {
     const { rahche } = ctx.state;
     const { body } = ctx.request;
@@ -42,17 +57,6 @@ module.exports = {
 
     await rService().update(rahche.id, { data: { roots: selectedRoots } });
 
-    const connections = await rConnQuery().findMany({
-      where: {
-        subject: rahche.subject.id,
-        sign: { id: { $in: rahche.signs.map((s) => s.id) } },
-        root: { id: { $in: selectedRoots.map((r) => r.id) } },
-      },
-      populate: ["approach", "approach.voice"],
-    });
-
-    const approachs = flatten(connections.map((c) => c.approach));
-
-    return { data: approachs };
+    return { ok: true };
   },
 };
