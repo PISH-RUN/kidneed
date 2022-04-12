@@ -1,5 +1,5 @@
 module.exports = {
-  routes: [
+  push: [
     {
       method: "POST",
       path: "/auth/jwt",
@@ -13,6 +13,16 @@ module.exports = {
       method: "GET",
       path: "/users/me/notifications",
       handler: "notification.find",
+      config: {
+        prefix: "",
+      },
+    },
+  ],
+  unshift: [
+    {
+      method: "PUT",
+      path: "/users/me",
+      handler: "me.update",
       config: {
         prefix: "",
       },
