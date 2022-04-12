@@ -14,12 +14,28 @@ module.exports = {
   async update(ctx) {
     const { user } = ctx.state;
     const { body } = ctx.request;
-    const { name } = body.data;
+    const { name, lockPassword } = body.data;
 
     const updatedUser = await strapi
-      .query("plugin::users-permissions.user")
-      .update({ where: { id: user.id }, data: { name } });
+      .service("plugin::users-permissions.user")
+      .edit(user.id, { name, lockPassword });
 
     ctx.body = await sanitizeOutput(updatedUser, ctx);
+  },
+
+  async verifyLockPassword(ctx) {
+    const { user } = ctx.state;
+    const { body } = ctx.request;
+    const { lockPassword } = body.data;
+
+    const verified = await strapi
+      .service("plugin::users-permissions.user")
+      .validatePassword(lockPassword, user.lockPassword);
+
+    return {
+      data: {
+        verified,
+      },
+    };
   },
 };

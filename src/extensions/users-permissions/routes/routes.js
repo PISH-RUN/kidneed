@@ -17,6 +17,14 @@ module.exports = {
         prefix: "",
       },
     },
+    {
+      method: "POST",
+      path: "/users/me/verify-lock-password",
+      handler: "me.verifyLockPassword",
+      config: {
+        prefix: "",
+      },
+    },
   ],
   unshift: [
     {
