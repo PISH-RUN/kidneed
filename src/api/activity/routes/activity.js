@@ -1,9 +1,15 @@
-'use strict';
+"use strict";
 
 /**
  * activity router.
  */
 
-const { createCoreRouter } = require('@strapi/strapi').factories;
+const { createCoreRouter } = require("@strapi/strapi").factories;
 
-module.exports = createCoreRouter('api::activity.activity');
+module.exports = createCoreRouter("api::activity.activity", {
+  config: {
+    delete: {
+      policies: ["activity-owner"],
+    },
+  },
+});
