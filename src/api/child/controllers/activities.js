@@ -4,7 +4,7 @@ const merge = require("lodash/merge");
 const groupBy = require("lodash/groupBy");
 const mapValues = require("lodash/mapValues");
 const addDays = require("date-fns/addDays");
-const startOfDay = require("date-fns/startOfDay");
+const format = require("date-fns/format");
 const endOfDay = require("date-fns/endOfDay");
 const { monthRemainingDays } = require("../../../utils/date");
 const { validateCreateActivity } = require("./validations");
@@ -75,11 +75,12 @@ module.exports = {
     const { id: childId } = ctx.request.params;
     const remainingDays = monthRemainingDays(new Date());
 
-    const startDay = startOfDay(new Date());
-    const endDay = endOfDay(addDays(startDay, remainingDays));
+    const today = new Date();
+    const startDay = format(today, "yyyy-MM-dd");
+    const endDay = format(addDays(today, remainingDays), "yyyy-MM-dd");
 
     const activities = await strapi.query("api::activity.activity").findMany({
-      where: { child: childId, date: { $gte: startDay, $lt: endDay } },
+      where: { child: childId, date: { $gte: startDay, $lte: endDay } },
       select: ["duration", "date"],
     });
 
