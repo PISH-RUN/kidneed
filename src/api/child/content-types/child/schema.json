@@ -22,7 +22,7 @@
         "girl"
       ]
     },
-    "schedules": {
+    "activities": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::activity.activity",

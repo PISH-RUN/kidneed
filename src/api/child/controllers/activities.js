@@ -99,12 +99,13 @@ module.exports = {
     const { id: childId } = params;
     const { from, to } = query;
 
-    const startDay = startOfDay(Date.parse(from));
-    const endDay = endOfDay(Date.parse(to));
+    if (!from || !to) {
+      return ctx.badRequest(`You need to provide both from and to`);
+    }
 
     const activities = await strapi.query("api::activity.activity").findMany({
-      where: { child: childId, date: { $gte: startDay, $lt: endDay } },
-      select: ["progress", "type"],
+      where: { child: childId, date: { $gte: from, $lte: to } },
+      select: ["id", "progress", "type"],
     });
 
     const result = mapValues(groupBy(activities, "type"), (activities) => ({
