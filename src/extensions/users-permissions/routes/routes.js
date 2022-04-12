@@ -23,6 +23,7 @@ module.exports = {
       handler: "me.verifyLockPassword",
       config: {
         prefix: "",
+        middlewares: ["plugin::users-permissions.rateLimit"],
       },
     },
   ],
