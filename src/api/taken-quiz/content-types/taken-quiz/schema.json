@@ -17,12 +17,6 @@
       "relation": "oneToOne",
       "target": "api::quiz.quiz"
     },
-    "child": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::child.child",
-      "inversedBy": "taken_quizs"
-    },
     "step": {
       "type": "relation",
       "relation": "manyToOne",
@@ -42,6 +36,12 @@
       "relation": "oneToMany",
       "target": "api::answer.answer",
       "mappedBy": "takenQuiz"
+    },
+    "child": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::child.child",
+      "inversedBy": "takenQuizzes"
     }
   }
 }

@@ -44,7 +44,7 @@
       "type": "integer",
       "required": true
     },
-    "taken_quizs": {
+    "takenQuizzes": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::taken-quiz.taken-quiz",
