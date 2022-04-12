@@ -5,7 +5,6 @@ const nQuery = (strapi) => strapi.query("api::notification.notification");
 
 module.exports = ({ strapi }) => ({
   async rahche({ rahche }) {
-    console.log(rahche);
     await nService(strapi).create({
       data: {
         title: "rahche created",

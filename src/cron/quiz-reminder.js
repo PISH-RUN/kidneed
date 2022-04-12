@@ -58,8 +58,6 @@ module.exports = async ({ strapi }) => {
     "id"
   );
 
-  console.log(unnotifiedChildren);
-
   unnotifiedChildren.reduce(async (acc, child) => {
     await acc;
     return strapi
