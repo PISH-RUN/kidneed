@@ -83,7 +83,7 @@ module.exports = {
 
     const activities = await strapi.query("api::activity.activity").findMany({
       where: { child: childId, date: { $gte: startDay, $lte: endDay } },
-      select: ["duration", "date"],
+      select: ["id", "duration", "date"],
     });
 
     const result = mapValues(groupBy(activities, "date"), (activities) => ({
