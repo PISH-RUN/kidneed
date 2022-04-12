@@ -31,6 +31,7 @@ module.exports = {
       date,
       child: childId,
       duration: findKey(contents[content1].meta, "duration") || 0,
+      type: contents[content2].type,
     });
 
     const activity2 = await createActivity({
@@ -38,6 +39,7 @@ module.exports = {
       date,
       child: childId,
       duration: findKey(contents[content2].meta, "duration") || 0,
+      type: contents[content2].type,
     });
 
     return { data: [activity1, activity2] };
