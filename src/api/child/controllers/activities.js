@@ -3,12 +3,10 @@
 const merge = require("lodash/merge");
 const groupBy = require("lodash/groupBy");
 const mapValues = require("lodash/mapValues");
-const addDays = require("date-fns/addDays");
-const format = require("date-fns/format");
-const endOfDay = require("date-fns/endOfDay");
 const { monthRemainingDays } = require("../../../utils/date");
 const { validateCreateActivity } = require("./validations");
 const findKey = require("lodash/findKey");
+const { startOfMonth, endOfMonth, format, addDays } = require("date-fns");
 
 async function createActivity(data) {
   return await strapi.service("api::activity.activity").create({ data });
@@ -114,6 +112,27 @@ module.exports = {
     const result = mapValues(groupBy(activities, "type"), (activities) => ({
       progress: activities.reduce(
         (total, activity) => total + (activity.progress || 0),
+        0
+      ),
+    }));
+
+    return { data: result };
+  },
+
+  async share(ctx) {
+    const { child } = ctx.state;
+
+    const start = format(startOfMonth(new Date()), "yyyy-MM-dd");
+    const end = format(endOfMonth(new Date()), "yyyy-MM-dd");
+
+    const activities = await strapi.query("api::activity.activity").findMany({
+      where: { child: child.id, date: { $gte: start, $lte: end } },
+      select: ["id", "duration", "type"],
+    });
+
+    const result = mapValues(groupBy(activities, "type"), (activities) => ({
+      share: activities.reduce(
+        (total, activity) => total + (activity.duration || 0),
         0
       ),
     }));
