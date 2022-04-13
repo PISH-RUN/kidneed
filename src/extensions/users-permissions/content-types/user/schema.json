@@ -66,6 +66,15 @@
     "lockPassword": {
       "type": "password",
       "private": true
+    },
+    "lockOption": {
+      "type": "enumeration",
+      "enum": [
+        "question",
+        "password"
+      ],
+      "default": "question",
+      "required": true
     }
   }
 }

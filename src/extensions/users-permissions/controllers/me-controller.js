@@ -14,11 +14,11 @@ module.exports = {
   async update(ctx) {
     const { user } = ctx.state;
     const { body } = ctx.request;
-    const { name, lockPassword } = body.data;
+    const { name, lockPassword, lockOption } = body.data;
 
     const updatedUser = await strapi
       .service("plugin::users-permissions.user")
-      .edit(user.id, { name, lockPassword });
+      .edit(user.id, { name, lockPassword, lockOption });
 
     ctx.body = await sanitizeOutput(updatedUser, ctx);
   },

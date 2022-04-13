@@ -10,7 +10,9 @@ module.exports = {
         .service("api::notification.extended")
         .unread(user.id);
 
-      ctx.body = { ...ctx.body, unreadNotifications };
+      const hasLockPassword = !!user.lockPassword;
+
+      ctx.body = { ...ctx.body, unreadNotifications, hasLockPassword };
     },
   }),
 };
