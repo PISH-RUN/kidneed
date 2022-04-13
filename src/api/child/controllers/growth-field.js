@@ -54,10 +54,12 @@ module.exports = {
       }))
     );
 
-    const response = result.reduce(
-      (acc, r) => ({ ...acc, [r.value.type]: omit(r.value, "type") }),
-      {}
-    );
+    const response = result
+      .filter((r) => r.status === "fulfilled")
+      .reduce(
+        (acc, r) => ({ ...acc, [r.value.type]: omit(r.value, "type") }),
+        {}
+      );
 
     return {
       data: response,
