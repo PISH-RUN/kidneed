@@ -94,6 +94,14 @@ module.exports = {
     },
     {
       method: "GET",
+      path: "/children/:id/growth-progression",
+      handler: "growth-field.progresssion",
+      config: {
+        policies: ["global::child-owner"],
+      },
+    },
+    {
+      method: "GET",
       path: "/children/:id/activity-share",
       handler: "activities.share",
       config: {

@@ -1,6 +1,7 @@
 "use strict";
 
 const omit = require("lodash/omit");
+const random = require("lodash/random");
 const { validateFieldSelection } = require("./validations");
 
 module.exports = {
@@ -61,5 +62,50 @@ module.exports = {
     return {
       data: response,
     };
+  },
+
+  async progresssion(ctx) {
+    console.log("here");
+    const { child } = ctx.state;
+    const growthFields = await strapi
+      .query("api::growth-field.growth-field")
+      .findMany({
+        select: ["id"],
+        populate: { growthSubfields: { select: ["id"] } },
+      });
+
+    const childStep = await strapi
+      .service("api::child-step.extended")
+      .current(child.id, ["growthField"]);
+
+    const result = growthFields.reduce((r, gf) => {
+      let total = 100;
+      const count = gf.growthSubfields.length;
+      const center = Math.round(total / count);
+      const threshold = Math.round(16 / count);
+      const subfields = gf.growthSubfields.reduce((r, gsf, index) => {
+        const percent = random(center - threshold, center + threshold);
+        if (index !== count - 1) {
+          total -= percent;
+        }
+
+        return {
+          ...r,
+          [gsf.id]: {
+            percent: index === count - 1 ? total : percent,
+          },
+        };
+      }, {});
+
+      return {
+        ...r,
+        [gf.id]: {
+          percent: childStep.growthField.id === gf.id ? 40 : 20,
+          subfields,
+        },
+      };
+    }, {});
+
+    return { data: result };
   },
 };
