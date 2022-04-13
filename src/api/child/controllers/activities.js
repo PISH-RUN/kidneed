@@ -22,14 +22,14 @@ module.exports = {
 
     const contents = await strapi
       .service("api::activity.extended")
-      .contentsInfo([content1, content2], ["meta"]);
+      .contentsInfo([content1, content2], ["meta", "type"]);
 
     const activity1 = await createActivity({
       content: content1.toString(),
       date,
       child: childId,
       duration: findKey(contents[content1].meta, "duration") || 0,
-      type: contents[content2].type,
+      type: contents[content1].type,
     });
 
     const activity2 = await createActivity({
