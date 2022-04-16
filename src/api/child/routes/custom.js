@@ -97,7 +97,7 @@ module.exports = {
       path: "/children/:id/growth-progression",
       handler: "growth-field.progresssion",
       config: {
-        policies: ["global::child-owner"],
+        policies: ["global::child-owner", "has-activity"],
       },
     },
     {
