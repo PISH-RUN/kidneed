@@ -28,7 +28,7 @@ module.exports = {
       content: content1.toString(),
       date,
       child: childId,
-      duration: findKey(contents[content1].meta, "duration") || 0,
+      duration: contents[content1].meta?.duration || 0,
       type: contents[content1].type,
     });
 
@@ -36,7 +36,7 @@ module.exports = {
       content: content2.toString(),
       date,
       child: childId,
-      duration: findKey(contents[content2].meta, "duration") || 0,
+      duration: contents[content2].meta?.duration || 0,
       type: contents[content2].type,
     });
 
