@@ -5,6 +5,8 @@ const rConnQuery = () =>
   strapi.query("api::rahche-connection.rahche-connection");
 const rSignQuery = () => strapi.query("api::rahche-sign.rahche-sign");
 
+const uniqBy = require("lodash/uniqBy");
+
 module.exports = {
   async find(ctx) {
     const { rahche } = ctx.state;
@@ -14,7 +16,7 @@ module.exports = {
       populate: ["sign"],
     });
 
-    const signs = connections.map((c) => c.sign);
+    const signs = uniqBy(connections, "sign.id").map((c) => c.sign);
 
     return { data: signs };
   },
