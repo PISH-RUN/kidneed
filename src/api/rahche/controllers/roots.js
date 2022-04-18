@@ -10,6 +10,7 @@ const rQuestionQuery = () =>
 const rRootQuery = () => strapi.query("api::rahche-root.rahche-root");
 const notificationBuilder = () => strapi.service("api::notification.builder");
 
+const uniqBy = require("lodash/uniqBy");
 const intersection = require("lodash/intersection");
 const { user } = require("pg/lib/defaults");
 
@@ -31,7 +32,9 @@ module.exports = {
       populate: ["root", "root.questions"],
     });
 
-    const questions = flatten(connections.map((c) => c.root.questions));
+    const questions = flatten(
+      uniqBy(connections, "root.id").map((c) => c.root.questions)
+    );
 
     return { data: questions };
   },
