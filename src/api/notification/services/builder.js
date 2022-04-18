@@ -5,15 +5,21 @@ const nQuery = (strapi) => strapi.query("api::notification.notification");
 
 module.exports = ({ strapi }) => ({
   async rahche({ rahche }) {
+    const { approaches, rahche: newRahche } = await strapi
+      .service("api::rahche.extended")
+      .approaches(rahche);
+
+    console.log(approaches);
+
     await nService(strapi).create({
       data: {
-        title: "rahche created",
-        body: "rahce was created",
+        title: newRahche.subject.name,
+        body: approaches.length.toString(),
         type: "rahche",
-        user: rahche.user.id,
-        child: rahche.child.id,
+        user: newRahche.user.id,
+        child: newRahche.child.id,
         payload: {
-          id: rahche.id,
+          id: newRahche.id,
         },
       },
     });

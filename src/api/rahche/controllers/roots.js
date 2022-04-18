@@ -70,10 +70,12 @@ module.exports = {
         r.questions.length / 2
     );
 
-    await rService().update(rahche.id, { data: { roots: selectedRoots } });
+    const updatedRahche = await rService().update(rahche.id, {
+      data: { roots: selectedRoots },
+    });
 
     if (rahche.roots.length === 0) {
-      await notificationBuilder().rahche({ rahche });
+      await notificationBuilder().rahche({ rahche: updatedRahche });
     }
 
     return { ok: true };
