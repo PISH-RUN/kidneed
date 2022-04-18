@@ -29,12 +29,16 @@ module.exports = {
         subject: rahche.subject.id,
         sign: { id: { $in: rahche.signs.map((s) => s.id) } },
       },
-      populate: ["root", "root.questions"],
+      populate: { root: { select: ["id"] } },
     });
 
-    const questions = flatten(
-      uniqBy(connections, "root.id").map((c) => c.root.questions)
-    );
+    const rootIds = uniqBy(connections, "root.id").map((root) => root.id);
+
+    const questions = await rQuestionQuery().findMany({
+      where: {
+        root: { id: { $in: rootIds } },
+      },
+    });
 
     return { data: questions };
   },
