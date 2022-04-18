@@ -70,6 +70,10 @@ module.exports = {
         r.questions.length / 2
     );
 
+    if (selectedRoots.length < 1) {
+      return ctx.badRequest(`You need to select more questions`);
+    }
+
     const updatedRahche = await rService().update(rahche.id, {
       data: { roots: selectedRoots },
     });
