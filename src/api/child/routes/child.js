@@ -12,5 +12,8 @@ module.exports = createCoreRouter("api::child.child", {
       middlewares: ["api::child.child-update-params"],
       policies: ["global::child-owner"],
     },
+    delete: {
+      policies: ["global::child-owner"],
+    },
   },
 });
