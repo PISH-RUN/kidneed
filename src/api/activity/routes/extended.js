@@ -10,5 +10,13 @@ module.exports = {
         policies: ["activity-owner"],
       },
     },
+    {
+      method: "POST",
+      path: "/activities/:id/seen",
+      handler: "activity.seen",
+      config: {
+        policies: ["activity-owner"],
+      },
+    },
   ],
 };

@@ -58,6 +58,10 @@
       "relation": "manyToOne",
       "target": "api::child.child",
       "inversedBy": "activities"
+    },
+    "seen": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

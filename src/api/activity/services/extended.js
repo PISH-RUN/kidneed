@@ -75,4 +75,28 @@ module.exports = ({ strapi }) => ({
       {}
     );
   },
+  async editions(contentId, tag) {
+    const query = qs.stringify(
+      {
+        filters: {
+          $and: [
+            {
+              content: contentId,
+            },
+            {
+              tag,
+            },
+          ],
+        },
+        publicationState: "preview",
+      },
+      {
+        encodeValuesOnly: true,
+      }
+    );
+
+    const response = await axios.get(`${DAPI_URL}/api/editions?${query}`);
+
+    return response?.data?.data;
+  },
 });

@@ -35,4 +35,39 @@ module.exports = ({ strapi }) => ({
       },
     });
   },
+
+  async goalAssist(activity, growthField) {
+    const editions = await strapi
+      .service("api::activity.extended")
+      .editions(activity.content, growthField.symbol);
+
+    if (!editions) {
+      return;
+    }
+
+    const body = editions
+      .filter((edition) => edition.attributes.payload?.length > 0)
+      .map((edition) =>
+        edition.attributes.payload.map((pass) => pass.text).join("\n")
+      )
+      .join("\n");
+
+    if (!body) {
+      return;
+    }
+
+    await nQuery(strapi).create({
+      data: {
+        child: activity.child.id,
+        user: activity.child.user.id,
+        type: "goalAssist",
+        title: "پاس گل",
+        body,
+        payload: {
+          content: activity.content,
+          editions: editions.map((edition) => edition.id),
+        },
+      },
+    });
+  },
 });
