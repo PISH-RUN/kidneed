@@ -9,7 +9,6 @@ const rQuery = (strapi) => strapi.service("api::rahche.rahche");
 
 module.exports = ({ strapi }) => ({
   async approaches(rahche, { populate } = {}) {
-    console.log({ old: rahche });
     if (
       !rahche.subject ||
       !rahche.signs?.length < 1 ||
@@ -18,13 +17,13 @@ module.exports = ({ strapi }) => ({
       rahche = await rQuery(strapi).findOne(rahche.id, { populate: "*" });
     }
 
-    console.log({ newr: rahche });
-
     const connections = await rConnQuery(strapi).findMany({
       where: {
-        subject: rahche.subject.id,
-        sign: { id: { $in: rahche.signs.map((s) => s.id) } },
-        root: { id: { $in: rahche.roots.map((r) => r.id) } },
+        $and: [
+          { subject: rahche.subject.id },
+          { sign: { id: { $in: rahche.signs.map((s) => s.id) } } },
+          { root: { id: { $in: rahche.roots.map((r) => r.id) } } },
+        ],
       },
       populate: [...(populate || []), "approach"],
     });

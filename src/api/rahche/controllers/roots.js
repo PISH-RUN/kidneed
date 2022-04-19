@@ -26,8 +26,12 @@ module.exports = {
 
     const connections = await rConnQuery().findMany({
       where: {
-        subject: rahche.subject.id,
-        sign: { id: { $in: rahche.signs.map((s) => s.id) } },
+        $and: [
+          {
+            subject: rahche.subject.id,
+          },
+          { sign: { id: { $in: rahche.signs.map((s) => s.id) } } },
+        ],
       },
       populate: { root: { select: ["id"] } },
     });
@@ -38,6 +42,7 @@ module.exports = {
       where: {
         root: { id: { $in: rootIds } },
       },
+      orderBy: { id: "asc" },
     });
 
     return { data: questions };
