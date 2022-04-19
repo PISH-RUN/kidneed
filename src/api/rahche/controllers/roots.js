@@ -36,7 +36,11 @@ module.exports = {
       populate: { root: { select: ["id"] } },
     });
 
-    const rootIds = uniqBy(connections, "root.id").map((root) => root.id);
+    console.log(connections);
+
+    const rootIds = uniqBy(connections, (c) => c.root.id).map((c) => c.root.id);
+
+    console.log(rootIds);
 
     const questions = await rQuestionQuery().findMany({
       where: {

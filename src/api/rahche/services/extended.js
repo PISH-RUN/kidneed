@@ -28,7 +28,7 @@ module.exports = ({ strapi }) => ({
       populate: [...(populate || []), "approach"],
     });
 
-    const approaches = uniqBy(connections, "approach.id").map(
+    const approaches = uniqBy(connections, (c) => c.approach.id).map(
       (c) => c.approach
     );
 
