@@ -21,11 +21,12 @@ async function updateDuration(record, model) {
 
   if (typeof duration === "object") {
     let child = record.child;
+
     if (!child) {
       child = (
         await strapi
           .query("api::activity.activity")
-          .findOne({ where: { id } }, { populate: ["child"] })
+          .findOne({ where: { id }, populate: ["child"] })
       ).child;
     }
 
