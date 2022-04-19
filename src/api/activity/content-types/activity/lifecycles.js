@@ -12,7 +12,7 @@ const durations = {
 };
 
 async function updateDuration(record, model) {
-  const { id, type, child } = record;
+  const { id, type } = record;
   let duration = durations[type];
 
   if (!duration) {
@@ -20,6 +20,19 @@ async function updateDuration(record, model) {
   }
 
   if (typeof duration === "object") {
+    let child = record.child;
+    if (!child) {
+      child = (
+        await strapi
+          .query("api::activity.activity")
+          .findOne({ where: { id } }, { populate: ["child"] })
+      ).child;
+    }
+
+    if (!child) {
+      return;
+    }
+
     const age = getYear(new Date()) - child.birthYear;
     const ageGroup = await strapi.service("api::age-group.extended").get(child);
 
