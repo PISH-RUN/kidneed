@@ -20,24 +20,22 @@ module.exports = {
     const { id: childId } = params;
     const { content1, content2, date } = body.data;
 
-    const contents = await strapi
-      .service("api::activity.extended")
-      .contentsInfo([content1, content2], ["meta", "type"]);
+    const entities = await strapi
+      .service("api::activity.dapi")
+      .entities([content1, content2], ["id"], ["type"]);
 
     const activity1 = await createActivity({
       content: content1.toString(),
       date,
       child: childId,
-      duration: contents[content1].meta?.duration || 0,
-      type: contents[content1].type,
+      type: entities[content1].content.type,
     });
 
     const activity2 = await createActivity({
       content: content2.toString(),
       date,
       child: childId,
-      duration: contents[content2].meta?.duration || 0,
-      type: contents[content2].type,
+      type: entities[content2].content.type,
     });
 
     return { data: [activity1, activity2] };
@@ -56,14 +54,14 @@ module.exports = {
     const result = await strapi.controller("api::activity.activity").find(ctx);
 
     const ids = result.data.map((data) => data.id).filter((id) => id);
-    const contents = await strapi
-      .service("api::activity.extended")
-      .contentsInfo(ids, ["title"]);
+    const entities = await strapi
+      .service("api::activity.dapi")
+      .entities(ids, ["title"]);
 
     result.data = result.data.map((data) =>
       merge(data, {
         attributes: {
-          title: contents[data.id]?.title,
+          title: entities[data.id]?.title,
         },
       })
     );

@@ -1,7 +1,5 @@
 "use strict";
 
-const { monthRemainingDays } = require("../../../utils/date");
-
 module.exports = (config, { strapi }) => {
   return async (ctx, next) => {
     const { params } = ctx.request;
@@ -21,14 +19,9 @@ module.exports = (config, { strapi }) => {
       return next(ctx);
     }
 
-    const now = new Date();
     const child = await strapi.service("api::child.child").findOne(childId);
 
-    await strapi
-      .service("api::activity.extended")
-      .generate(child, monthRemainingDays(now));
-
-    await strapi.service("api::child-step.extended").generated(childStep);
+    await strapi.service("api::activity.plan").generate(child);
 
     return next(ctx);
   };

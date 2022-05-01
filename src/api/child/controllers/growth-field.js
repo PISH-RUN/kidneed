@@ -67,7 +67,6 @@ module.exports = {
   },
 
   async progresssion(ctx) {
-    console.log("here");
     const { child } = ctx.state;
     const growthFields = await strapi
       .query("api::growth-field.growth-field")

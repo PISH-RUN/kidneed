@@ -9,8 +9,6 @@ module.exports = ({ strapi }) => ({
       .service("api::rahche.extended")
       .approaches(rahche);
 
-    console.log(approaches);
-
     await nService(strapi).create({
       data: {
         title: newRahche.subject.name,
@@ -38,7 +36,7 @@ module.exports = ({ strapi }) => ({
 
   async goalAssist(activity, growthField) {
     const editions = await strapi
-      .service("api::activity.extended")
+      .service("api::activity.dapi")
       .editions(activity.content, growthField.symbol);
 
     if (!editions) {
