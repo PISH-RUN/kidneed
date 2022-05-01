@@ -21,7 +21,13 @@ module.exports = (config, { strapi }) => {
 
     const child = await strapi.service("api::child.child").findOne(childId);
 
-    await strapi.service("api::activity.plan").generate(child);
+    try {
+      await strapi.service("api::activity.plan").generate(child);
+    } catch (e) {
+      console.log(e);
+      console.log(e.message);
+      return ctx.badRequest("something went wrong when generating plan");
+    }
 
     return next(ctx);
   };

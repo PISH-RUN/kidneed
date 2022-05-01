@@ -7,7 +7,7 @@ const DAPI_URL = "https://dapi.pish.run";
 
 // data: age, days, gender, field
 async function plan(data) {
-  const response = await axios.post(`${DAPI_URL}/api/plan-generator`, data);
+  const response = await axios.post(`${DAPI_URL}/api/plan-generator`, { data });
 
   return response.data;
 }

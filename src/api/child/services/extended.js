@@ -1,6 +1,6 @@
 "use strict";
 
-const getYear = require("date-fns/getYear");
+const getYear = require("date-fns-jalali/getYear");
 
 module.exports = ({ strapi }) => ({
   async attachUser(childId, userId) {

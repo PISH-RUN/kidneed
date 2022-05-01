@@ -36,7 +36,9 @@ module.exports = ({ strapi }) => ({
       .update(childStep.id, { data: { growthField } });
   },
 
-  async generated(childStep) {
+  async generated(child) {
+    const childStep = await this.current(child);
+
     return await strapi
       .service("api::child-step.child-step")
       .update(childStep.id, { data: { planGenerated: true } });
