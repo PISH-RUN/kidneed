@@ -25,7 +25,6 @@ module.exports = (config, { strapi }) => {
       await strapi.service("api::activity.plan").generate(child);
     } catch (e) {
       console.log(e);
-      console.log(e.message);
       return ctx.badRequest("something went wrong when generating plan");
     }
 

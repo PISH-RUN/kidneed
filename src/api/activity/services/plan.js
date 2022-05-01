@@ -11,8 +11,6 @@ function getDaysContents(data) {
   const result = [];
   const remainingDays = monthRemainingDays(new Date());
 
-  console.log({ data });
-
   for (let i = 0; i < remainingDays; i++) {
     const todayContents = [];
     everyDay.forEach((type) => {
@@ -20,7 +18,6 @@ function getDaysContents(data) {
         type,
         id,
       }));
-      console.log({ contents });
       todayContents.push(...contents);
     });
 
@@ -67,7 +64,6 @@ module.exports = ({ strapi }) => ({
 
     const daysContents = getDaysContents(plan.data);
     const now = new Date();
-    console.log({ daysContents });
 
     await daysContents.reduce(async (acc, contents, day) => {
       await acc;
@@ -84,7 +80,6 @@ module.exports = ({ strapi }) => ({
     }
 
     async function createActivity(content, day) {
-      console.log({ content });
       await activityService.create({
         data: {
           child,
