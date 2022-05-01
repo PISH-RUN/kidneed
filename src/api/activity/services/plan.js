@@ -47,7 +47,7 @@ module.exports = ({ strapi }) => ({
     const days = monthRemainingDays(new Date());
 
     const growthField = await strapi
-      .service("api::child-step.child-step")
+      .service("api::child-step.extended")
       .growthField(child.id);
     const field = growthField.symbol;
 
