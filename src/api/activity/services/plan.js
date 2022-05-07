@@ -21,22 +21,16 @@ function getDaysContents(data) {
       todayContents.push(...contents);
     });
 
-    let j = i;
-    while (j < i + 3) {
-      const todayTypeSelected = every3Day[j % 3];
-      const contents = data[todayTypeSelected]
-        .slice(Math.floor((2 / 3) * i), 2 * Math.floor(i / 3 + 1))
-        .map((id) => ({
-          todayTypeSelected,
-          id,
-        }));
-      if (contents.length !== 2) {
-        j += 1;
-        continue;
-      }
-      todayContents.push(...contents);
-      break;
-    }
+    const todayTypeSelected = every3Day[i % 3];
+    const portion = 2 * Math.floor(i / 3);
+    const contents = data[todayTypeSelected]
+      .slice(portion, portion + 2)
+      .map((id) => ({
+        type: todayTypeSelected,
+        id,
+      }));
+
+    todayContents.push(...contents);
 
     result.push(todayContents);
   }
@@ -76,7 +70,7 @@ module.exports = ({ strapi }) => ({
       await contents.reduce(async (acc, content) => {
         await acc;
         return createActivity(content, day);
-      });
+      }, Promise.resolve());
     }
 
     async function createActivity(content, day) {
