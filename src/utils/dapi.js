@@ -12,7 +12,7 @@ async function plan(data) {
   return response.data;
 }
 
-async function entities(ids, fields, contents) {
+async function contents(ids, fields) {
   const queryJson = {
     filters: {
       id: {
@@ -23,30 +23,22 @@ async function entities(ids, fields, contents) {
     publicationState: "preview",
   };
 
-  if (contents) {
-    queryJson.populate = {
-      content: {
-        fields: contents,
-      },
-    };
-  }
-
   const query = qs.stringify(queryJson, {
     encodeValuesOnly: true,
   });
 
-  const response = await axios.get(`${DAPI_URL}/api/entities?${query}`);
+  const response = await axios.get(`${DAPI_URL}/api/contents?${query}`);
 
   return response.data;
 }
 
-async function editions(entity, tag) {
+async function editions(content, tag) {
   const query = qs.stringify(
     {
       filters: {
         $and: [
           {
-            content: { entity },
+            content,
           },
           {
             tag,
@@ -67,6 +59,6 @@ async function editions(entity, tag) {
 
 module.exports = {
   plan,
-  entities,
+  contents: contents,
   editions,
 };
