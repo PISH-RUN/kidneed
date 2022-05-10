@@ -75,6 +75,21 @@
       ],
       "default": "question",
       "required": true
+    },
+    "purchases": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::purchase.purchase",
+      "mappedBy": "user"
+    },
+    "subscribed_until": {
+      "type": "datetime"
+    },
+    "coupons": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::coupon.coupon",
+      "mappedBy": "user"
     }
   }
 }
