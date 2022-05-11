@@ -23,9 +23,9 @@
       "relation": "oneToOne",
       "target": "api::subscription.subscription"
     },
-    "payments": {
+    "payment": {
       "type": "relation",
-      "relation": "oneToMany",
+      "relation": "oneToOne",
       "target": "api::payment.payment",
       "mappedBy": "purchase"
     },
@@ -35,12 +35,21 @@
         "started",
         "waitingForPayment",
         "completed"
-      ]
+      ],
+      "default": "started"
     },
     "coupon": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::coupon.coupon"
+    },
+    "uuid": {
+      "type": "uid",
+      "required": true
+    },
+    "price": {
+      "type": "integer",
+      "required": true
     }
   }
 }

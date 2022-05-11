@@ -19,15 +19,15 @@
     "days": {
       "type": "integer"
     },
-    "month": {
+    "months": {
       "type": "integer"
     },
-    "original_price": {
+    "originalPrice": {
       "type": "integer",
       "required": true,
       "private": true
     },
-    "current_price": {
+    "currentPrice": {
       "type": "integer",
       "required": true
     }

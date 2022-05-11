@@ -1,5 +1,8 @@
 "use strict";
 
+const zarinpal = require("./lib/zarinpal");
+const subscription = require("./cron/subscription");
+
 async function cleanup(strapi) {
   await strapi.query("api::question.question").deleteMany();
   await strapi.query("api::quiz.quiz").deleteMany();
@@ -14,7 +17,9 @@ module.exports = {
    *
    * This gives you an opportunity to extend code.
    */
-  async register({ strapi }) {},
+  async register({ strapi }) {
+    strapi.zarinpal = zarinpal({ strapi });
+  },
 
   /**
    * An asynchronous bootstrap function that runs before
@@ -24,6 +29,6 @@ module.exports = {
    * run jobs, or perform some special logic.
    */
   async bootstrap({ strapi }) {
-    // await cleanup(strapi);
+    await subscription({ strapi });
   },
 };

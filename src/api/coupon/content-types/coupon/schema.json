@@ -28,16 +28,8 @@
     },
     "amount": {
       "type": "integer",
-      "required": true
-    },
-    "type": {
-      "type": "enumeration",
-      "enum": [
-        "fixed",
-        "percent"
-      ],
-      "default": "fixed",
-      "required": true
+      "required": false,
+      "min": 1
     },
     "user": {
       "type": "relation",
@@ -47,6 +39,11 @@
     },
     "expires_at": {
       "type": "datetime"
+    },
+    "percent": {
+      "type": "integer",
+      "max": 100,
+      "min": 1
     }
   }
 }

@@ -4,10 +4,11 @@
   "info": {
     "singularName": "payment",
     "pluralName": "payments",
-    "displayName": "payment"
+    "displayName": "payment",
+    "description": ""
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
@@ -34,9 +35,12 @@
     },
     "purchase": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "oneToOne",
       "target": "api::purchase.purchase",
-      "inversedBy": "payments"
+      "inversedBy": "payment"
+    },
+    "fee": {
+      "type": "integer"
     }
   }
 }
