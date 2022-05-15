@@ -53,19 +53,6 @@ module.exports = {
 
     const result = await strapi.controller("api::activity.activity").find(ctx);
 
-    const ids = result.data.map((data) => data.content).filter((id) => id);
-    const contents = await strapi
-      .service("api::activity.dapi")
-      .contents(ids, ["title"]);
-
-    result.data = result.data.map((data) =>
-      merge(data, {
-        attributes: {
-          title: contents[data.content]?.title,
-        },
-      })
-    );
-
     return result;
   },
 
