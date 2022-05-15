@@ -12,28 +12,6 @@ const couponQuery = () => strapi.query("api::coupon.coupon");
 const subscriptionService = () =>
   strapi.service("api::subscription.subscription");
 
-// async function getSubscription()
-
-function isCouponValid(coupon, user) {
-  if (!coupon) {
-    return false;
-  }
-
-  if (coupon.user && coupon.user.id !== user.id) {
-    return false;
-  }
-
-  if (coupon.capacity <= coupon.used) {
-    return false;
-  }
-
-  if (coupon.expiresAt && isPast(parse(coupon.expiresAt))) {
-    return false;
-  }
-
-  return true;
-}
-
 function getPrice(price, coupon) {
   const { amount, percent } = coupon;
 
@@ -92,14 +70,16 @@ module.exports = {
       populate: ["user"],
     });
 
-    if (!isCouponValid(coupon, user)) {
+    if (!strapi.service("api::coupon.extended").isValid(coupon, user)) {
       return ctx.badRequest("Coupon is invalid");
     }
 
     purchase = await purchaseService().update(purchase.id, {
       data: {
         coupon: coupon.id,
-        price: getPrice(purchase.subscription.currentPrice, coupon),
+        price: strapi
+          .service("api::coupon.extended")
+          .offAmount(purchase.subscription.currentPrice, coupon),
       },
       populate: ["subscription", "coupon"],
     });
@@ -126,7 +106,7 @@ module.exports = {
       populate: ["subscription", "user", "payment"],
     });
 
-    if (!purchase || purchase.user.id !== user.id || purchase.payment.refId) {
+    if (!purchase || purchase.user.id !== user.id || purchase.payment?.refId) {
       return ctx.badRequest();
     }
 
