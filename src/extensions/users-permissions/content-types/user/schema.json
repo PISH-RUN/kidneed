@@ -75,6 +75,9 @@
       ],
       "default": "question",
       "required": true
+    },
+    "fixedLogin": {
+      "type": "boolean"
     }
   }
 }

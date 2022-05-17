@@ -94,6 +94,15 @@ module.exports = {
       .query("plugin::users-permissions.user")
       .findOne({ where: query });
 
+    if (user.fixedLogin) {
+      return ctx.send({
+        jwt: getService("jwt").issue({
+          id: user.id,
+        }),
+        user: await sanitizeUser(user, ctx),
+      });
+    }
+
     if (
       !user ||
       differenceInMinutes(new Date(), parseISO(user.otpExpiresAt)) >
