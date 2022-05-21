@@ -2,6 +2,7 @@
 
 const zarinpal = require("./lib/zarinpal");
 const subscription = require("./cron/subscription");
+const roleBootstrap = require("./bootstrap/roles");
 
 async function cleanup(strapi) {
   await strapi.query("api::question.question").deleteMany();
@@ -29,6 +30,7 @@ module.exports = {
    * run jobs, or perform some special logic.
    */
   async bootstrap({ strapi }) {
+    await roleBootstrap({ strapi }).run();
     await subscription({ strapi });
   },
 };
