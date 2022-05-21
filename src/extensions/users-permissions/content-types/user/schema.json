@@ -69,15 +69,27 @@
     },
     "lockOption": {
       "type": "enumeration",
-      "enum": [
-        "question",
-        "password"
-      ],
+      "enum": ["question", "password"],
       "default": "question",
       "required": true
     },
     "fixedLogin": {
       "type": "boolean"
+    },
+    "purchases": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::purchase.purchase",
+      "mappedBy": "user"
+    },
+    "subscribedUntil": {
+      "type": "datetime"
+    },
+    "coupons": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::coupon.coupon",
+      "mappedBy": "user"
     }
   }
 }

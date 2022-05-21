@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "payments",
+  "info": {
+    "singularName": "payment",
+    "pluralName": "payments",
+    "displayName": "payment",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "online"
+      ]
+    },
+    "gateway": {
+      "type": "string"
+    },
+    "refId": {
+      "type": "string"
+    },
+    "authority": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "integer"
+    },
+    "completedAt": {
+      "type": "datetime"
+    },
+    "purchase": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::purchase.purchase",
+      "inversedBy": "payment"
+    },
+    "fee": {
+      "type": "integer"
+    }
+  }
+}

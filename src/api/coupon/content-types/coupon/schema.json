@@ -1,0 +1,49 @@
+{
+  "kind": "collectionType",
+  "collectionName": "coupons",
+  "info": {
+    "singularName": "coupon",
+    "pluralName": "coupons",
+    "displayName": "coupon",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "code": {
+      "type": "string",
+      "required": true
+    },
+    "capacity": {
+      "type": "integer",
+      "required": true,
+      "default": 1
+    },
+    "used": {
+      "type": "integer",
+      "default": 0,
+      "required": true
+    },
+    "amount": {
+      "type": "integer",
+      "required": false,
+      "min": 1
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "coupons"
+    },
+    "expires_at": {
+      "type": "datetime"
+    },
+    "percent": {
+      "type": "integer",
+      "max": 100,
+      "min": 1
+    }
+  }
+}
