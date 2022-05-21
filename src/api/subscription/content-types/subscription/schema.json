@@ -24,8 +24,7 @@
     },
     "originalPrice": {
       "type": "integer",
-      "required": true,
-      "private": true
+      "required": true
     },
     "currentPrice": {
       "type": "integer",
