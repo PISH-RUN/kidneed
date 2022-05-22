@@ -69,7 +69,10 @@
     },
     "lockOption": {
       "type": "enumeration",
-      "enum": ["question", "password"],
+      "enum": [
+        "question",
+        "password"
+      ],
       "default": "question",
       "required": true
     },

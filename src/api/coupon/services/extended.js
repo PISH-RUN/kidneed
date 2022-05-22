@@ -23,8 +23,19 @@ module.exports = ({ strapi }) => ({
     return true;
   },
 
-  offAmount(price, coupon) {
+  offAmount(subscription, coupon) {
+    const { currentPrice: price } = subscription;
+
     if (!coupon) {
+      return price;
+    }
+
+    const { onlySubscriptions } = coupon;
+
+    if (
+      onlySubscriptions.length > 0 &&
+      !onlySubscriptions.find((s) => s.id === subscription.id)
+    ) {
       return price;
     }
 

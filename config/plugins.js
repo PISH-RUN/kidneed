@@ -1,9 +1,12 @@
 const crypto = require("crypto");
 
-module.exports = {
+module.exports = ({ env }) => ({
   "users-permissions": {
     config: {
-      jwtSecret: crypto.randomBytes(16).toString("base64"),
+      jwtSecret:
+        env("NODE_ENV") === "production"
+          ? crypto.randomBytes(16).toString("base64")
+          : "dE0Sw1ilxukNMdsN",
     },
   },
   seeder: {
@@ -17,4 +20,4 @@ module.exports = {
       },
     },
   },
-};
+});
