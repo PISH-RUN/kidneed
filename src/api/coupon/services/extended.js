@@ -30,15 +30,6 @@ module.exports = ({ strapi }) => ({
       return price;
     }
 
-    const { onlySubscriptions } = coupon;
-
-    if (
-      onlySubscriptions.length > 0 &&
-      !onlySubscriptions.find((s) => s.id === subscription.id)
-    ) {
-      return price;
-    }
-
     const { amount, percent } = coupon;
 
     if (amount) {
