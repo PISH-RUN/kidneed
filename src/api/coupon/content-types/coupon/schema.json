@@ -37,7 +37,7 @@
       "target": "plugin::users-permissions.user",
       "inversedBy": "coupons"
     },
-    "expires_at": {
+    "expiresAt": {
       "type": "datetime"
     },
     "percent": {
