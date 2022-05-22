@@ -75,7 +75,7 @@ module.exports = ({ strapi }) => ({
     const { data } = response.data;
 
     if (data.code === 101) {
-      return payment;
+      return payment.purchase;
     }
 
     if (data.code === 100) {
