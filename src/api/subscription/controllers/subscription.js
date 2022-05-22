@@ -9,7 +9,6 @@ module.exports = createCoreController(
   "api::subscription.subscription",
   ({ strapi }) => ({
     async appliedCoupon(ctx) {
-      console.log("here");
       const { user } = ctx.state;
       const { body, query } = ctx.request;
       const { coupon: couponCode } = body.data;
