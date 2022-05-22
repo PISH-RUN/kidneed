@@ -79,6 +79,8 @@ module.exports = ({ strapi }) => ({
     }
 
     if (data.code === 100 || data.code === 101) {
+      const now = new Date();
+
       await strapi.service("api::payment.payment").update(payment.id, {
         data: { refId: data.ref_id.toString(), completedAt: now },
       });
