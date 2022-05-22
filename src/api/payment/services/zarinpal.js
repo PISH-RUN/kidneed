@@ -1,9 +1,5 @@
 "use strict";
 
-const addDays = require("date-fns/addDays");
-const addMonths = require("date-fns/addMonths");
-const isPast = require("date-fns/isPast");
-
 module.exports = ({ strapi }) => ({
   async createPayment(purchase) {
     purchase = await strapi
@@ -11,6 +7,10 @@ module.exports = ({ strapi }) => ({
       .update(purchase.id);
 
     const amount = purchase.price;
+
+    if (amount < 1000) {
+      return [amount, null];
+    }
 
     try {
       const response = await strapi.zarinpal.request(
@@ -34,13 +34,13 @@ module.exports = ({ strapi }) => ({
         },
       });
 
-      return payment;
+      return [amount, payment];
     } catch (e) {
       console.error(e.message);
       console.log(e);
     }
 
-    return null;
+    return [];
   },
 
   async verify(authority) {

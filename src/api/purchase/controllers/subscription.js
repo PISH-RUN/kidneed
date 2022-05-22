@@ -53,11 +53,7 @@ module.exports = {
       populate: ["user", "onlySubscriptions"],
     });
 
-    if (
-      !strapi.service("api::coupon.extended").isValid(coupon, user) ||
-      (onlySubscriptions.length > 0 &&
-        !onlySubscriptions.find((s) => s.id === subscription.id))
-    ) {
+    if (!strapi.service("api::coupon.extended").isValid(coupon, user)) {
       return { data: pick(purchase, "uuid", "price", "subscription") };
     }
 
@@ -87,7 +83,8 @@ module.exports = {
         "price",
         "subscription",
         "coupon.code",
-        "coupon.amount"
+        "coupon.amount",
+        "coupon.percent"
       ),
     };
   },
@@ -153,7 +150,12 @@ module.exports = {
       populate: ["subscription", "user", "payment"],
     });
 
-    if (!purchase || purchase.user.id !== user.id || purchase.payment?.refId) {
+    if (
+      !purchase ||
+      purchase.status === "completed" ||
+      purchase.user.id !== user.id ||
+      purchase.payment?.refId
+    ) {
       return ctx.badRequest();
     }
 
@@ -161,9 +163,23 @@ module.exports = {
       await strapi.service("api::payment.payment").delete(purchase.payment.id);
     }
 
-    const payment = await strapi
+    const [amount, payment] = await strapi
       .service("api::payment.zarinpal")
       .createPayment(purchase);
+
+    if (amount !== undefined && !payment) {
+      await strapi.service("api::purchase.extended").succeed(purchase);
+      const successRedirect = strapi.config.get(
+        "payment.success",
+        "https://yekodo.ir"
+      );
+
+      return {
+        data: {
+          url: successRedirect + `?purchase=${purchase.uuid}`,
+        },
+      };
+    }
 
     if (!payment) {
       return ctx.badRequest(`Something went wrong, please try again later`);

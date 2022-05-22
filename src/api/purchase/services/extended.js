@@ -2,6 +2,10 @@
 
 const pService = (strapi) => strapi.service("api::purchase.purchase");
 
+const addDays = require("date-fns/addDays");
+const addMonths = require("date-fns/addMonths");
+const isPast = require("date-fns/isPast");
+
 module.exports = ({ strapi }) => ({
   async update(purchaseId) {
     let purchase = await pService(strapi).findOne(purchaseId, {
@@ -37,6 +41,10 @@ module.exports = ({ strapi }) => ({
     const role = await strapi
       .service("plugin::users-permissions.extended")
       .subscribedRole();
+
+    purchase = await strapi
+      .service("api::purchase.purchase")
+      .findOne(purchase.id, { populate: ["user", "subscription", "coupon"] });
 
     const { user, subscription, coupon } = purchase;
     const now = new Date();
