@@ -4,7 +4,7 @@ module.exports = {
   routes: [
     {
       method: "GET",
-      path: "/payment-callback/zarinpal",
+      path: "/callback/zarinpal",
       handler: "zarinpal.callback",
     },
   ],
