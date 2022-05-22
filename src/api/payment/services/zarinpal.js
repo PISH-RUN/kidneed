@@ -74,11 +74,11 @@ module.exports = ({ strapi }) => ({
 
     const { data } = response.data;
 
-    if (data.code === 101) {
+    if (data.code === 101 && payment.purchase.status === "completed") {
       return payment.purchase;
     }
 
-    if (data.code === 100) {
+    if (data.code === 100 || data.code === 101) {
       await strapi.service("api::payment.payment").update(payment.id, {
         data: { refId: data.ref_id.toString(), completedAt: now },
       });
