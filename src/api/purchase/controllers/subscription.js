@@ -53,12 +53,19 @@ module.exports = {
       populate: ["user", "onlySubscriptions"],
     });
 
-    const { onlySubscriptions } = coupon;
-
     if (
       !strapi.service("api::coupon.extended").isValid(coupon, user) ||
       (onlySubscriptions.length > 0 &&
         !onlySubscriptions.find((s) => s.id === subscription.id))
+    ) {
+      return { data: pick(purchase, "uuid", "price", "subscription") };
+    }
+
+    const { onlySubscriptions } = coupon;
+
+    if (
+      onlySubscriptions.length > 0 &&
+      !onlySubscriptions.find((s) => s.id === subscription.id)
     ) {
       return { data: pick(purchase, "uuid", "price", "subscription") };
     }

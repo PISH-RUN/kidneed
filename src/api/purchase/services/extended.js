@@ -15,8 +15,6 @@ module.exports = ({ strapi }) => ({
         .service("api::coupon.extended")
         .offAmount(subscription, coupon);
 
-      console.log({ price: subscription.currentPrice, coupon });
-
       if (price !== purchase.price) {
         purchase = pService(strapi).update(purchase.id, {
           data: { price },
