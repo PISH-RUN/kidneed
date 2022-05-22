@@ -59,7 +59,7 @@ module.exports = ({ strapi }) => ({
     }
 
     if (payment.refId) {
-      throw new Error(`Payment has been completed`);
+      return payment.purchase;
     }
 
     let response;
