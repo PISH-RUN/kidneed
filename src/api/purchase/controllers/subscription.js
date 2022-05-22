@@ -177,6 +177,7 @@ module.exports = {
       return {
         data: {
           url: successRedirect + `?purchase=${purchase.uuid}`,
+          payment: false,
         },
       };
     }
@@ -192,6 +193,7 @@ module.exports = {
     return {
       data: {
         url: `https://zarinpal.com/pg/StartPay/${payment.authority}`,
+        payment: true,
       },
     };
   },
