@@ -24,11 +24,17 @@ module.exports = createCoreController(
 
       let subscriptions = await subscriptionQuery().findMany(query);
 
+      const { onlySubscriptions } = coupon;
+
       subscriptions = subscriptions.map((subscription) => ({
         ...subscription,
-        discountPrice: strapi
-          .service("api::coupon.extended")
-          .offAmount(subscription, coupon),
+        discountPrice:
+          onlySubscriptions.length > 0 &&
+          !onlySubscriptions.find((s) => s.id === subscription.id)
+            ? subscription.currentPrice
+            : strapi
+                .service("api::coupon.extended")
+                .offAmount(subscription, coupon),
       }));
 
       return { data: subscriptions };

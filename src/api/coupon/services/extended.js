@@ -32,10 +32,6 @@ module.exports = ({ strapi }) => ({
 
     const { onlySubscriptions } = coupon;
 
-    if (!onlySubscriptions) {
-      coupon = await strapi.service("api::coupon.coupon").findOne(coupon.id, {populate: ["user", "onlySubscriptions"]})
-    }
-
     if (
       onlySubscriptions.length > 0 &&
       !onlySubscriptions.find((s) => s.id === subscription.id)

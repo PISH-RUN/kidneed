@@ -79,49 +79,13 @@ module.exports = ({ strapi }) => ({
     }
 
     if (data.code === 100) {
-      const role = await strapi
-        .service("plugin::users-permissions.extended")
-        .subscribedRole();
-      const { purchase } = payment;
-      const { user, subscription, coupon } = purchase;
-      const now = new Date();
-
-      let subscribeTime = user.subscribedUntil
-        ? new Date(user.subscribedUntil)
-        : now;
-
-      if (isPast(subscribeTime)) {
-        subscribeTime = now;
-      }
-
-      if (subscription.days) {
-        subscribeTime = addDays(subscribeTime, subscription.days);
-      }
-
-      if (subscription.months) {
-        subscribeTime = addMonths(subscribeTime, subscription.months);
-      }
-
       await strapi.service("api::payment.payment").update(payment.id, {
         data: { refId: data.ref_id.toString(), completedAt: now },
       });
 
-      await strapi
-        .service("api::purchase.purchase")
-        .update(purchase.id, { data: { status: "completed" } });
-
-      await strapi.service("plugin::users-permissions.user").edit(user.id, {
-        subscribedUntil: subscribeTime,
-        role: role.id,
-      });
-
-      if (coupon) {
-        await strapi
-          .service("api::coupon.coupon")
-          .update(coupon.id, { data: { used: coupon.used + 1 } });
-      }
-
-      return purchase;
+      return await strapi
+        .service("api::purchase.extended")
+        .succeed(payment.purchase);
     }
   },
 });

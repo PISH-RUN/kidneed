@@ -53,7 +53,13 @@ module.exports = {
       populate: ["user", "onlySubscriptions"],
     });
 
-    if (!strapi.service("api::coupon.extended").isValid(coupon, user)) {
+    const { onlySubscriptions } = coupon;
+
+    if (
+      !strapi.service("api::coupon.extended").isValid(coupon, user) ||
+      (onlySubscriptions.length > 0 &&
+        !onlySubscriptions.find((s) => s.id === subscription.id))
+    ) {
       return { data: pick(purchase, "uuid", "price", "subscription") };
     }
 
@@ -98,7 +104,13 @@ module.exports = {
       populate: ["user", "onlySubscriptions"],
     });
 
-    if (!strapi.service("api::coupon.extended").isValid(coupon, user)) {
+    const { onlySubscriptions } = coupon;
+
+    if (
+      !strapi.service("api::coupon.extended").isValid(coupon, user) ||
+      (onlySubscriptions.length > 0 &&
+        !onlySubscriptions.find((s) => s.id === subscription.id))
+    ) {
       return ctx.badRequest("Coupon is invalid");
     }
 
