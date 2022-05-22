@@ -16,7 +16,7 @@ module.exports = ({ strapi }) => ({
       return false;
     }
 
-    if (coupon.expiresAt && isPast(parse(coupon.expiresAt))) {
+    if (coupon.expiresAt && isPast(new Date(coupon.expiresAt))) {
       return false;
     }
 
