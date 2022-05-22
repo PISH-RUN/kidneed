@@ -30,7 +30,7 @@ module.exports = {
   async purchase(ctx) {
     const { user } = ctx.state;
     const { body } = ctx.request;
-    const { subscription: subscriptionId } = body.data;
+    const { subscription: subscriptionId, coupon: couponCode } = body.data;
 
     const subscription = await subscriptionService().findOne(subscriptionId);
 
@@ -38,7 +38,7 @@ module.exports = {
       return ctx.badRequest();
     }
 
-    const purchase = await strapi.service("api::purchase.purchase").create({
+    let purchase = await strapi.service("api::purchase.purchase").create({
       data: {
         subscription: subscription.id,
         user: user.id,
@@ -48,7 +48,35 @@ module.exports = {
       populate: ["subscription"],
     });
 
-    return { data: pick(purchase, "uuid", "price", "subscription") };
+    const coupon = await couponQuery().findOne({
+      where: { code: couponCode },
+      populate: ["user", "onlySubscriptions"],
+    });
+
+    if (!strapi.service("api::coupon.extended").isValid(coupon, user)) {
+      return { data: pick(purchase, "uuid", "price", "subscription") };
+    }
+
+    purchase = await purchaseService().update(purchase.id, {
+      data: {
+        coupon: coupon.id,
+        price: strapi
+          .service("api::coupon.extended")
+          .offAmount(purchase.subscription, coupon),
+      },
+      populate: ["subscription", "coupon"],
+    });
+
+    return {
+      data: pick(
+        purchase,
+        "uuid",
+        "price",
+        "subscription",
+        "coupon.code",
+        "coupon.amount"
+      ),
+    };
   },
 
   async coupon(ctx) {
@@ -67,7 +95,7 @@ module.exports = {
 
     const coupon = await couponQuery().findOne({
       where: { code: couponCode },
-      populate: ["user"],
+      populate: ["user", "onlySubscriptions"],
     });
 
     if (!strapi.service("api::coupon.extended").isValid(coupon, user)) {
@@ -79,7 +107,7 @@ module.exports = {
         coupon: coupon.id,
         price: strapi
           .service("api::coupon.extended")
-          .offAmount(purchase.subscription.currentPrice, coupon),
+          .offAmount(purchase.subscription, coupon),
       },
       populate: ["subscription", "coupon"],
     });
