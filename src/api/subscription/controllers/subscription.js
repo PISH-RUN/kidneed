@@ -18,7 +18,9 @@ module.exports = createCoreController(
         populate: ["user", "onlySubscriptions"],
       });
 
-      if (!strapi.service("api::coupon.extended").isValid(coupon, user)) {
+      if (
+        !(await strapi.service("api::coupon.extended").isValid(coupon, user))
+      ) {
         return ctx.badRequest("Coupon is invalid");
       }
 

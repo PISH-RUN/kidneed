@@ -3,7 +3,7 @@
 const isPast = require("date-fns/isPast");
 
 module.exports = ({ strapi }) => ({
-  isValid(coupon, user) {
+  async isValid(coupon, user) {
     if (!coupon) {
       return false;
     }
@@ -18,6 +18,17 @@ module.exports = ({ strapi }) => ({
 
     if (coupon.expiresAt && isPast(new Date(coupon.expiresAt))) {
       return false;
+    }
+
+    if (coupon.perUser !== null) {
+      const used = await strapi.query("api::purchase.purchase").count({
+        where: {
+          $and: [{ user: user.id, coupon: coupon.id, status: "completed" }],
+        },
+      });
+      if (used >= coupon.perUser) {
+        return false;
+      }
     }
 
     return true;

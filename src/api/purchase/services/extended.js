@@ -14,7 +14,7 @@ module.exports = ({ strapi }) => ({
 
     const { coupon, user, subscription } = purchase;
 
-    if (strapi.service("api::coupon.extended").isValid(coupon, user)) {
+    if (await strapi.service("api::coupon.extended").isValid(coupon, user)) {
       const price = strapi
         .service("api::coupon.extended")
         .offAmount(subscription, coupon);
