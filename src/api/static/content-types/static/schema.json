@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "statics",
+  "info": {
+    "singularName": "static",
+    "pluralName": "statics",
+    "displayName": "static",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "key": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "value": {
+      "type": "text"
+    },
+    "payload": {
+      "type": "json"
+    }
+  }
+}
