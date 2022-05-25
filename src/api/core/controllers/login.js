@@ -94,6 +94,10 @@ module.exports = {
       .query("plugin::users-permissions.user")
       .findOne({ where: query });
 
+    if (!user) {
+      throw new ValidationError("Invalid Credentials");
+    }
+
     if (user.fixedLogin) {
       return ctx.send({
         jwt: getService("jwt").issue({
@@ -104,9 +108,8 @@ module.exports = {
     }
 
     if (
-      !user ||
       differenceInMinutes(new Date(), parseISO(user.otpExpiresAt)) >
-        tokenExpiryMinutes
+      tokenExpiryMinutes
     ) {
       throw new ValidationError("Invalid Credentials");
     }
