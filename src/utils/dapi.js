@@ -43,6 +43,7 @@ async function editions(content, tag) {
           {
             tag,
           },
+          { accepted: true },
         ],
       },
       publicationState: "preview",
