@@ -32,6 +32,16 @@
       "type": "string",
       "required": true,
       "unique": true
+    },
+    "video": {
+      "allowedTypes": [
+        "videos"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "solution": {
+      "type": "text"
     }
   }
 }
