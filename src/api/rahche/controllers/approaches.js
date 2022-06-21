@@ -14,6 +14,6 @@ module.exports = {
       .service("api::rahche.extended")
       .approaches(rahche, { populate: ["approach.voice"] });
 
-    return { data: approaches };
+    return { approaches, subject: rahche.subject };
   },
 };
