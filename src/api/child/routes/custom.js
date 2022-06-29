@@ -12,6 +12,11 @@ module.exports = {
     },
     {
       method: "GET",
+      path: "/my-children/:id/growth-field",
+      handler: "child.growthField",
+    },
+    {
+      method: "GET",
       path: "/children/:id/activities",
       handler: "activities.find",
       config: {

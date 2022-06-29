@@ -2,11 +2,10 @@
 
 const merge = require("lodash/merge");
 const pick = require("lodash/pick");
+const omit = require("lodash/omit");
 var getYear = require("date-fns-jalali/getYear");
 
-/**
- *  child controller
- */
+const childService = () => strapi.service("api::child.child");
 
 const { createCoreController } = require("@strapi/strapi").factories;
 
@@ -92,5 +91,24 @@ module.exports = createCoreController("api::child.child", ({ strapi }) => ({
     ctx.request.query = merge(query, { filters: { user: user.id } });
 
     return super.find(ctx);
+  },
+
+  async growthField(ctx) {
+    const { user } = ctx.state;
+    const { params } = ctx.request;
+
+    const child = await childService().findOne(params.id, {
+      populate: ["user", "growthField"],
+    });
+
+    if (!child || child.user.id !== user.id) {
+      return ctx.badRequest(`Child not found`);
+    }
+
+    const growthField = await strapi
+      .service("api::child-step.extended")
+      .growthField(child.id);
+
+    return { data: growthField };
   },
 }));
