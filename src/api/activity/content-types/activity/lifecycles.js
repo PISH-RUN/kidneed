@@ -43,8 +43,9 @@ async function updateDuration(record, model) {
       return;
     }
   }
-
-  await strapi.service(model.uid).update(id, { data: { duration } });
+  if (!record.duration || record.duration > duration) {
+    await strapi.service(model.uid).update(id, { data: { duration } });
+  }
 }
 
 module.exports = {
