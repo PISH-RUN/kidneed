@@ -113,7 +113,7 @@ module.exports = {
     if (
       !(await strapi.service("api::coupon.extended").isValid(coupon, user)) ||
       (onlySubscriptions.length > 0 &&
-        !onlySubscriptions.find((s) => s.id === subscription.id))
+        !onlySubscriptions.find((s) => s.id === purchase.subscription.id))
     ) {
       return ctx.badRequest("Coupon is invalid");
     }
