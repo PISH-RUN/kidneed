@@ -29,7 +29,10 @@ module.exports = {
 
   async result(ctx) {
     const { child } = ctx.state;
-    const step = await strapi.service("api::step.extended").current();
+    const { query } = ctx.request;
+    const { month, year } = query;
+
+    const step = await strapi.service("api::step.extended").get(month, year);
 
     const takenQuizzes = await strapi
       .query("api::taken-quiz.taken-quiz")

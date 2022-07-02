@@ -4,20 +4,31 @@ var getYear = require("date-fns-jalali/getYear");
 var getMonth = require("date-fns-jalali/getMonth");
 
 module.exports = ({ strapi }) => ({
-  async current() {
+  async get(month, year) {
     const now = new Date();
-    const [month, year] = [getMonth(now), getYear(now)];
 
-    const steps = await strapi
+    if (!month) {
+      month = getMonth(now);
+    }
+
+    if (!year) {
+      year = getYear(now);
+    }
+
+    const step = await strapi
       .query("api::step.step")
-      .findMany({ where: { month, year } });
+      .findOne({ where: { month, year } });
 
-    if (steps.length > 0) {
-      return steps[0];
+    if (step) {
+      return step;
     }
 
     return await strapi
       .query("api::step.step")
       .create({ data: { month, year } });
+  },
+
+  async current() {
+    return this.get();
   },
 });
