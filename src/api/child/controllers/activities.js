@@ -6,7 +6,19 @@ const mapValues = require("lodash/mapValues");
 const { monthRemainingDays } = require("../../../utils/date");
 const { validateCreateActivity } = require("./validations");
 const findKey = require("lodash/findKey");
-const { startOfMonth, endOfMonth, format, addDays } = require("date-fns");
+const {
+  startOfMonth,
+  endOfMonth,
+  format,
+  addDays,
+  startOfDay,
+  endOfDay,
+} = require("date-fns");
+const {
+  newDate: jNewDate,
+  getMonth: jGetMonth,
+  getYear: jGetYear,
+} = require("date-fns-jalali");
 
 async function createActivity(data) {
   return await strapi.service("api::activity.activity").create({ data });
@@ -106,9 +118,18 @@ module.exports = {
 
   async share(ctx) {
     const { child } = ctx.state;
+    const { query } = ctx.request;
+    let { month, year } = query;
+    const now = new Date();
 
-    const start = format(startOfMonth(new Date()), "yyyy-MM-dd");
-    const end = format(endOfMonth(new Date()), "yyyy-MM-dd");
+    month = month ? Number(month) : jGetMonth(now);
+    year = year ? Number(year) : jGetMonth(now);
+
+    const start = format(startOfDay(jNewDate(year, month, 1)), "yyyy-MM-dd");
+    const end = format(
+      endOfDay(jNewDate(year, month, month > 6 ? 30 : 31)),
+      "yyyy-MM-dd"
+    );
 
     const activities = await strapi.query("api::activity.activity").findMany({
       where: { child: child.id, date: { $gte: start, $lte: end } },
