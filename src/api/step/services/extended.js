@@ -24,7 +24,7 @@ module.exports = ({ strapi }) => ({
     }
 
     return await strapi
-      .query("api::step.step")
+      .service("api::step.step")
       .create({ data: { month, year } });
   },
 

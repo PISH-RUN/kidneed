@@ -95,19 +95,20 @@ module.exports = createCoreController("api::child.child", ({ strapi }) => ({
 
   async growthField(ctx) {
     const { user } = ctx.state;
-    const { params } = ctx.request;
+    const { params, query } = ctx.request;
 
     const child = await childService().findOne(params.id, {
-      populate: ["user", "growthField"],
+      populate: ["user"],
     });
 
     if (!child || child.user.id !== user.id) {
       return ctx.badRequest(`Child not found`);
     }
+    const { month, year } = query;
 
     const growthField = await strapi
       .service("api::child-step.extended")
-      .growthField(child.id);
+      .growthField(child.id, month, year);
 
     return { data: growthField };
   },
