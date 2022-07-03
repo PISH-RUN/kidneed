@@ -20,7 +20,6 @@ module.exports = {
       path: "/children/:id/activities/:activity",
       handler: "activities.findOne",
       config: {
-        middlewares: ["api::child.activities-middleware"],
         policies: ["global::child-owner"],
       },
     },
