@@ -3,6 +3,7 @@
 const merge = require("lodash/merge");
 const groupBy = require("lodash/groupBy");
 const mapValues = require("lodash/mapValues");
+const omit = require("lodash/omit");
 const { monthRemainingDays } = require("../../../utils/date");
 const { validateCreateActivity } = require("./validations");
 const findKey = require("lodash/findKey");
@@ -51,6 +52,21 @@ module.exports = {
     });
 
     return { data: [activity1, activity2] };
+  },
+
+  async findOne(ctx) {
+    const { params } = ctx.request;
+    const { id: childId, activity: activityId } = params;
+
+    const activity = await strapi
+      .service("api::activity.activity")
+      .findOne(activityId, { populate: ["child.user"] });
+
+    if (!activity || activity.child.id !== Number(childId)) {
+      return ctx.badRequest(`You can't get this activity`);
+    }
+
+    return { data: omit(activity, "child") };
   },
 
   async find(ctx) {

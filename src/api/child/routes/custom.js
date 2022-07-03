@@ -17,6 +17,15 @@ module.exports = {
     },
     {
       method: "GET",
+      path: "/children/:id/activities/:activity",
+      handler: "activities.findOne",
+      config: {
+        middlewares: ["api::child.activities-middleware"],
+        policies: ["global::child-owner"],
+      },
+    },
+    {
+      method: "GET",
       path: "/children/:id/activities",
       handler: "activities.find",
       config: {
