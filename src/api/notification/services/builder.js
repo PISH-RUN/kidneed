@@ -43,14 +43,13 @@ module.exports = ({ strapi }) => ({
       return;
     }
 
-    const body = editions
+    const text = editions
       .filter((edition) => edition.attributes.payload?.length > 0)
       .map((edition) =>
         edition.attributes.payload.map((pass) => pass.text).join("\n")
-      )
-      .join("\n");
+      );
 
-    if (!body) {
+    if (!text.length) {
       return;
     }
 
@@ -60,10 +59,12 @@ module.exports = ({ strapi }) => ({
         user: activity.child.user.id,
         type: "goalAssist",
         title: "پاس گل",
-        body,
+        body: text.join("\n"),
         payload: {
           content: activity.content,
+          text,
           editions: editions.map((edition) => edition.id),
+          growthField,
         },
       },
     });
