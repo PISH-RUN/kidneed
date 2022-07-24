@@ -43,10 +43,12 @@ module.exports = ({ strapi }) => ({
       return;
     }
 
-    const text = editions
+    const text = [];
+
+    editions
       .filter((edition) => edition.attributes.payload?.length > 0)
       .map((edition) =>
-        edition.attributes.payload.map((pass) => pass.text).join("\n")
+        edition.attributes.payload.map((pass) => text.push(pass.text))
       );
 
     if (!text.length) {
