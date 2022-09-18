@@ -26,7 +26,7 @@ module.exports = createCoreController("api::child.child", ({ strapi }) => ({
 
     const result = (
       await axios.get(
-        `https://dapi.pish.run/api/plan-generator?daysCount=${remainDaysCount}&age=${age}&gender=${gender}`
+        `https://dapi.yekodo.ir/api/plan-generator?daysCount=${remainDaysCount}&age=${age}&gender=${gender}`
       )
     ).data;
     for (const day of result) {

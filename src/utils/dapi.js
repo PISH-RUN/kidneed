@@ -3,7 +3,7 @@
 var axios = require("axios");
 const qs = require("qs");
 
-const DAPI_URL = "https://dapi.pish.run";
+const DAPI_URL = "https://dapi.yekodo.ir";
 
 // data: age, days, gender, field
 async function plan(data) {
